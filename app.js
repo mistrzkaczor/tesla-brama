@@ -70,7 +70,11 @@ async function sendCommand(button, url, successText) {
 
     catch (error) {
 
-        console.error(error);
+        if (CONFIG.DEBUG) {
+
+    console.error(error);
+
+}
 
         setStatus("🔴 Błąd połączenia", "#FF453A");
 
@@ -84,7 +88,7 @@ async function sendCommand(button, url, successText) {
 
         setStatus("🟢 Gotowy", "#d9d9d9");
 
-    }, 2000);
+    }, CONFIG.MESSAGE_TIMEOUT);
 
 }
 
@@ -98,7 +102,7 @@ btnOpen.addEventListener("click", () => {
 
         btnOpen,
 
-        OPEN_URL,
+        CONFIG.OPEN_URL,
 
         "Brama otwierana"
 
@@ -112,7 +116,7 @@ btnClose.addEventListener("click", () => {
 
         btnClose,
 
-        CLOSE_URL,
+        CONFIG.CLOSE_URL,
 
         "Brama zamykana"
 
