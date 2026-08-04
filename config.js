@@ -20,11 +20,14 @@ const CONFIG = {
     "https://svr20.supla.org/direct/1632/hMj8i64QTPFPN",
 
 
-    // Odświeżanie statusu (ms)
+ // Odświeżanie statusu (ms)
     REFRESH_INTERVAL: 5000,
 
+    // Czas wyświetlania komunikatu po wysłaniu polecenia
+    MESSAGE_TIMEOUT: 2000,
 
     // Włącz diagnostykę
     DEBUG: true
+
 
 };
