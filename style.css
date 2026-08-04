@@ -61,11 +61,11 @@ body{
 
     border-radius:24px;
 
-    padding:35px;
+    padding:45px 35px;
 
     text-align:center;
 
-    margin-bottom:45px;
+    margin-bottom:50px;
 
     box-shadow:
         0 10px 40px rgba(0,0,0,.35);
@@ -76,13 +76,15 @@ body{
 
 .tesla-title{
 
-    font-size:54px;
+    font-size:72px;
 
-    font-weight:200;
+    font-weight:300;
 
-    letter-spacing:18px;
+    letter-spacing:14px;
 
     color:white;
+
+    line-height:1;
 
     animation:teslaGlow 4s ease-in-out infinite;
 
@@ -92,13 +94,13 @@ body{
 
 .tesla-line{
 
-    width:180px;
+    width:240px;
 
-    height:3px;
+    height:4px;
 
     background:var(--red);
 
-    margin:22px auto;
+    margin:24px auto;
 
     border-radius:10px;
 
@@ -108,13 +110,13 @@ body{
 
 .tesla-subtitle{
 
-    font-size:22px;
+    font-size:32px;
 
-    color:var(--gray);
+    font-weight:300;
 
-    letter-spacing:2px;
+    color:#d0d0d0;
 
-    text-transform:uppercase;
+    letter-spacing:3px;
 
 }
 
