@@ -76,15 +76,21 @@ async function readStatus() {
 
 function showRawResponse(text){
 
-    statusIcon.innerHTML = "🟦";
+    console.log("RAW:", text);
+    console.log("LENGTH:", text.length);
 
-    statusText.innerHTML = text.length
-        ? text
-        : "(pusta odpowiedź)";
+    statusIcon.innerHTML="🟦";
 
-    lastUpdate.innerHTML =
+    statusText.innerHTML=
+        "["+text+"]";
+
+    lastUpdate.innerHTML=
         "Aktualizacja: "
         + new Date().toLocaleTimeString();
+
+    message.innerHTML=
+        "Długość odpowiedzi: "
+        + text.length;
 
 }
 
