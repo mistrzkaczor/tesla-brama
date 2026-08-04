@@ -4,19 +4,19 @@
 
 :root{
 
-    --bg:#111214;
+    --bg:#0f1012;
     --panel:#1b1d21;
 
-    --green:#26c75a;
-    --green-dark:#17954b;
+    --green:#23c85b;
+    --green-dark:#169548;
 
-    --red:#ef3b3b;
-    --red-dark:#c81f25;
+    --red:#ef3d3d;
+    --red-dark:#c91f25;
 
     --accent:#e82127;
 
-    --text:#ffffff;
-    --text2:#c8c8c8;
+    --white:#ffffff;
+    --gray:#d0d0d0;
 
 }
 
@@ -44,15 +44,11 @@ body{
 
 }
 
-/* ==========================================================
-   KONTENER
-========================================================== */
-
 .container{
 
-    width:min(1300px,96%);
+    width:min(1280px,96%);
 
-    margin:25px auto;
+    margin:15px auto 30px;
 
 }
 
@@ -64,20 +60,20 @@ body{
 
     background:linear-gradient(
         180deg,
-        #1d1f24,
-        #17181b
+        #202228,
+        #18191d
     );
 
-    border-radius:28px;
+    border-radius:30px;
 
-    padding:45px;
+    padding:48px;
 
-    margin-bottom:35px;
+    margin-bottom:32px;
 
     border:1px solid rgba(255,255,255,.08);
 
     box-shadow:
-        0 18px 40px rgba(0,0,0,.35);
+        0 18px 35px rgba(0,0,0,.35);
 
 }
 
@@ -85,7 +81,7 @@ body{
 
     text-align:center;
 
-    font-size:78px;
+    font-size:72px;
 
     font-weight:300;
 
@@ -97,18 +93,20 @@ body{
 
 .hero-line{
 
-    width:260px;
+    width:340px;
 
     height:4px;
 
     margin:28px auto;
 
-    background:var(--accent);
-
     border-radius:20px;
 
-    box-shadow:
-        0 0 15px rgba(232,33,39,.35);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--accent),
+        transparent
+    );
 
 }
 
@@ -116,16 +114,16 @@ body{
 
     text-align:center;
 
-    color:#d2d2d2;
+    color:#d4d4d4;
 
-    font-size:34px;
+    font-size:30px;
 
     letter-spacing:4px;
 
 }
 
 /* ==========================================================
-   PRZYCISKI
+   BUTTONS
 ========================================================== */
 
 .actions{
@@ -144,9 +142,7 @@ body{
 
     align-items:center;
 
-    gap:35px;
-
-    height:180px;
+    height:170px;
 
     padding:0 45px;
 
@@ -154,15 +150,15 @@ body{
 
     border-radius:28px;
 
-    color:white;
-
     cursor:pointer;
+
+    color:white;
 
     transition:.18s;
 
     box-shadow:
-        inset 0 1px rgba(255,255,255,.12),
-        0 10px 24px rgba(0,0,0,.30);
+        inset 0 1px rgba(255,255,255,.15),
+        0 10px 25px rgba(0,0,0,.30);
 
 }
 
@@ -188,6 +184,8 @@ body{
 
 }
 
+/* Zielony */
+
 .action-open{
 
     background:linear-gradient(
@@ -197,6 +195,8 @@ body{
     );
 
 }
+
+/* Czerwony */
 
 .action-close{
 
@@ -214,11 +214,35 @@ body{
 
 .action-icon{
 
-    width:120px;
+    width:140px;
 
-    font-size:70px;
+    min-width:140px;
 
-    text-align:center;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.action-icon img{
+
+    width:76px;
+
+    height:76px;
+
+    transition:.25s;
+
+    filter:drop-shadow(
+        0 0 12px rgba(255,255,255,.20)
+    );
+
+}
+
+.action:hover img{
+
+    transform:scale(1.08);
 
 }
 
@@ -232,7 +256,7 @@ body{
 
     text-align:center;
 
-    font-size:58px;
+    font-size:62px;
 
     font-weight:700;
 
@@ -250,9 +274,9 @@ body{
 
     align-items:center;
 
-    gap:20px;
+    gap:22px;
 
-    margin:40px 0;
+    margin:38px 0;
 
 }
 
@@ -262,7 +286,7 @@ body{
 
     height:2px;
 
-    background:#444;
+    background:#404040;
 
 }
 
@@ -272,31 +296,31 @@ body{
 
     text-align:center;
 
-    font-size:32px;
+    font-size:28px;
 
-    color:#dddddd;
+    color:#d9d9d9;
 
 }
 
 /* ==========================================================
-   STOPKA
+   FOOTER
 ========================================================== */
 
 footer{
 
     text-align:center;
 
-    color:#999;
+    color:#9f9f9f;
 
     font-size:22px;
 
-    padding-bottom:20px;
+    padding-bottom:15px;
 
 }
 
 .footer-name{
 
-    color:#bfbfbf;
+    color:#c8c8c8;
 
 }
 
@@ -315,7 +339,7 @@ footer{
 }
 
 /* ==========================================================
-   RESPONSYWNOŚĆ
+   TABLET
 ========================================================== */
 
 @media(max-width:900px){
@@ -330,13 +354,13 @@ footer{
 
 .hero-subtitle{
 
-    font-size:24px;
+    font-size:22px;
 
 }
 
 .action{
 
-    height:135px;
+    height:130px;
 
     padding:0 25px;
 
@@ -344,19 +368,31 @@ footer{
 
 .action-title{
 
-    font-size:36px;
+    font-size:38px;
 
 }
 
 .action-icon{
 
-    width:80px;
+    width:90px;
 
-    font-size:48px;
+    min-width:90px;
+
+}
+
+.action-icon img{
+
+    width:54px;
+
+    height:54px;
 
 }
 
 }
+
+/* ==========================================================
+   TELEFON
+========================================================== */
 
 @media(max-width:600px){
 
@@ -388,33 +424,43 @@ footer{
 
 .action{
 
-    height:105px;
+    height:100px;
+
+    padding:0 18px;
 
 }
 
 .action-title{
 
-    font-size:22px;
+    font-size:24px;
 
 }
 
 .action-icon{
 
-    width:55px;
+    width:60px;
 
-    font-size:30px;
+    min-width:60px;
+
+}
+
+.action-icon img{
+
+    width:36px;
+
+    height:36px;
 
 }
 
 .status-message{
 
-    font-size:20px;
+    font-size:18px;
 
 }
 
 footer{
 
-    font-size:16px;
+    font-size:15px;
 
 }
 
