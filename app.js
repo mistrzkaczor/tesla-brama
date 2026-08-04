@@ -1,42 +1,25 @@
-/* ==========================================
-   Tesla SUPLA Dashboard v1.1
-========================================== */
+/* ==========================================================
+   TESLA SUPLA DASHBOARD v2.2
+========================================================== */
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
 
-/* ==========================================
-   START
-========================================== */
+/* ==========================================================
+   STATUS
+========================================================== */
 
-window.onload = () => {
+function setStatus(text, color = "#d9d9d9") {
 
-    btnOpen.addEventListener("click", () => {
-        sendCommand(CONFIG.OPEN_URL);
-    });
-
-    btnClose.addEventListener("click", () => {
-        sendCommand(CONFIG.CLOSE_URL);
-    });
-
-    showMessage("Gotowy");
-
-};
-
-/* ==========================================
-   Komunikaty
-========================================== */
-
-function showMessage(text) {
-
-    message.innerHTML = text;
+    message.textContent = text;
+    message.style.color = color;
 
 }
 
-/* ==========================================
-   Blokada przycisków
-========================================== */
+/* ==========================================================
+   PRZYCISKI
+========================================================== */
 
 function lockButtons(lock) {
 
@@ -45,52 +28,111 @@ function lockButtons(lock) {
 
 }
 
-/* ==========================================
-   Wysłanie polecenia
-========================================== */
-
-async function sendCommand(url) {
-
-    lockButtons(true);
-
-    showMessage("⏳ Wysyłanie polecenia...");
-
-    try {
-
-        await fetch(url, {
-            mode: "no-cors",
-            cache: "no-store"
-        });
-
-        showMessage("✅ Polecenie wysłane");
-
-    }
-    catch (err) {
-
-        console.error(err);
-
-        showMessage("❌ Błąd komunikacji");
-
-    }
-
-    setTimeout(() => {
-
-        lockButtons(false);
-
-        showMessage("Gotowy");
-
-    }, 2000);
-
-function startLoading(button){
+function startLoading(button) {
 
     button.classList.add("loading");
 
 }
 
-function stopLoading(button){
+function stopLoading(button) {
 
     button.classList.remove("loading");
 
 }
-   
+
+/* ==========================================================
+   WYSŁANIE KOMENDY
+========================================================== */
+
+async function sendCommand(button, url, successMessage) {
+
+    lockButtons(true);
+
+    startLoading(button);
+
+    setStatus("🔵 Wysyłanie polecenia...", "#4EA3FF");
+
+    try {
+
+        const response = await fetch(url, {
+
+            method: "GET",
+            cache: "no-store"
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error("HTTP " + response.status);
+
+        }
+
+        setStatus("🟢 " + successMessage, "#34C759");
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        setStatus("🔴 Błąd połączenia", "#FF453A");
+
+    }
+
+    finally {
+
+        setTimeout(() => {
+
+            stopLoading(button);
+
+            lockButtons(false);
+
+            setStatus("🟢 Gotowy", "#d9d9d9");
+
+        }, 2000);
+
+    }
+
 }
+
+/* ==========================================================
+   ZDARZENIA
+========================================================== */
+
+btnOpen.addEventListener("click", () => {
+
+    sendCommand(
+
+        btnOpen,
+
+        OPEN_URL,
+
+        "Polecenie OTWÓRZ wysłane"
+
+    );
+
+});
+
+btnClose.addEventListener("click", () => {
+
+    sendCommand(
+
+        btnClose,
+
+        CLOSE_URL,
+
+        "Polecenie ZAMKNIJ wysłane"
+
+    );
+
+});
+
+/* ==========================================================
+   START
+========================================================== */
+
+window.addEventListener("load", () => {
+
+    setStatus("🟢 Gotowy");
+
+});
