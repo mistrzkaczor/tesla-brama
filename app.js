@@ -1,154 +1,84 @@
 /* ==========================================
-   Tesla SUPLA Dashboard v1.0
-   app.js
+   Tesla SUPLA Dashboard v1.1
 ========================================== */
-
-let refreshTimer = null;
-
-const statusIcon = document.getElementById("statusIcon");
-const statusText = document.getElementById("statusText");
-const lastUpdate = document.getElementById("lastUpdate");
-const message = document.getElementById("message");
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
+const message = document.getElementById("message");
 
-/* ===========================
-   Inicjalizacja
-=========================== */
+/* ==========================================
+   START
+========================================== */
 
 window.onload = () => {
 
-    btnOpen.addEventListener("click", () => sendCommand(CONFIG.OPEN_URL));
-    btnClose.addEventListener("click", () => sendCommand(CONFIG.CLOSE_URL));
+    btnOpen.addEventListener("click", () => {
+        sendCommand(CONFIG.OPEN_URL);
+    });
 
-    readStatus();
+    btnClose.addEventListener("click", () => {
+        sendCommand(CONFIG.CLOSE_URL);
+    });
 
-    refreshTimer = setInterval(readStatus, CONFIG.REFRESH_INTERVAL);
+    showMessage("Gotowy");
 
 };
 
-/* ===========================
-   Odczyt statusu
-=========================== */
+/* ==========================================
+   Komunikaty
+========================================== */
 
-async function readStatus() {
+function showMessage(text) {
 
-    if (CONFIG.DEBUG)
-        console.clear();
+    message.innerHTML = text;
+
+}
+
+/* ==========================================
+   Blokada przycisków
+========================================== */
+
+function lockButtons(lock) {
+
+    btnOpen.disabled = lock;
+    btnClose.disabled = lock;
+
+}
+
+/* ==========================================
+   Wysłanie polecenia
+========================================== */
+
+async function sendCommand(url) {
+
+    lockButtons(true);
+
+    showMessage("⏳ Wysyłanie polecenia...");
 
     try {
 
-        const response = await fetch(CONFIG.STATUS_URL, {
+        await fetch(url, {
+            mode: "no-cors",
             cache: "no-store"
         });
 
-        const text = await response.text();
-
-        if (CONFIG.DEBUG) {
-
-            console.log("HTTP:", response.status);
-            console.log("Odpowiedź:");
-            console.log(text);
-
-        }
-
-        showRawResponse(text);
+        showMessage("✅ Polecenie wysłane");
 
     }
     catch (err) {
 
-        setStatus(
-            "⚪",
-            "Brak połączenia",
-            "Błąd komunikacji z SUPLA"
-        );
-
         console.error(err);
 
-    }
-
-}
-
-/* ===========================
-   Wyświetlenie odpowiedzi
-=========================== */
-
-function showRawResponse(text){
-
-    console.log("RAW:", text);
-    console.log("LENGTH:", text.length);
-
-    statusIcon.innerHTML="🟦";
-
-    statusText.innerHTML=
-        "["+text+"]";
-
-    lastUpdate.innerHTML=
-        "Aktualizacja: "
-        + new Date().toLocaleTimeString();
-
-    message.innerHTML=
-        "Długość odpowiedzi: "
-        + text.length;
-
-}
-
-/* ===========================
-   Ustawienie statusu
-=========================== */
-
-function setStatus(icon,text,msg){
-
-    statusIcon.innerHTML = icon;
-
-    statusText.innerHTML = text;
-
-    lastUpdate.innerHTML =
-        "Aktualizacja: "
-        + new Date().toLocaleTimeString();
-
-    message.innerHTML = msg;
-
-}
-
-/* ===========================
-   Wysłanie polecenia
-=========================== */
-
-async function sendCommand(url){
-
-    btnOpen.disabled = true;
-    btnClose.disabled = true;
-
-    message.innerHTML =
-        "Wysyłanie polecenia...";
-
-    try{
-
-        await fetch(url,{
-            cache:"no-store",
-            mode:"no-cors"
-        });
-
-        message.innerHTML =
-            "Polecenie wysłane";
-
-    }
-    catch(e){
-
-        message.innerHTML =
-            "Błąd wysyłania";
+        showMessage("❌ Błąd komunikacji");
 
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
-        btnOpen.disabled=false;
-        btnClose.disabled=false;
+        lockButtons(false);
 
-        readStatus();
+        showMessage("Gotowy");
 
-    },1500);
+    }, 2000);
 
 }
