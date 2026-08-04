@@ -3,12 +3,14 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <title>TESLA - Brama</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>Tesla SUPLA Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -16,63 +18,120 @@
 
 <div class="container">
 
-    <!-- ===========================
-         BANER
-    ============================ -->
+    <!-- ==========================
+            BANER
+    =========================== -->
 
-    <header class="banner">
+    <header class="hero">
 
-        <div class="tesla-title">
-            T E S L A
+        <div class="hero-car">
+
+            <!-- tutaj później będzie SVG -->
+
         </div>
 
-        <div class="tesla-line"></div>
+        <h1 class="hero-title">
 
-        <div class="tesla-subtitle">
+            T E S L A
+
+        </h1>
+
+        <div class="hero-line"></div>
+
+        <div class="hero-subtitle">
+
             Sterowanie bramą
+
         </div>
 
     </header>
 
-    <!-- ===========================
-         PRZYCISKI
-    ============================ -->
+    <!-- ==========================
+            AKCJE
+    =========================== -->
 
     <main>
 
-        <div class="buttons">
+        <button
+            id="btnOpen"
+            class="action action-open">
 
-            <button
-                id="btnOpen"
-                class="btn btn-open">
+            <span class="action-icon">
 
-                🟢 OTWÓRZ BRAMĘ
+                🟢
 
-            </button>
+            </span>
 
-            <button
-                id="btnClose"
-                class="btn btn-close">
+            <span class="action-text">
 
-                🔴 ZAMKNIJ BRAMĘ
+                OTWÓRZ BRAMĘ
 
-            </button>
+            </span>
 
-        </div>
+        </button>
+
+
+        <button
+            id="btnClose"
+            class="action action-close">
+
+            <span class="action-icon">
+
+                🔴
+
+            </span>
+
+            <span class="action-text">
+
+                ZAMKNIJ BRAMĘ
+
+            </span>
+
+        </button>
 
     </main>
 
-    <!-- ===========================
-         STOPKA
-    ============================ -->
+    <!-- ==========================
+            STATUS
+    =========================== -->
 
-    <footer>
+    <section class="status">
+
+        <div class="status-line"></div>
 
         <div id="message">
 
             Gotowy
 
         </div>
+
+        <div class="status-line"></div>
+
+    </section>
+
+    <!-- ==========================
+            STOPKA
+    =========================== -->
+
+    <footer>
+
+        <span class="footer-name">
+
+            Tesla SUPLA Dashboard
+
+        </span>
+
+        <span class="footer-separator">
+
+            |
+
+        </span>
+
+        <span class="footer-version">
+
+            v2.0
+
+        </span>
 
     </footer>
 
