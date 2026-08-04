@@ -1,5 +1,5 @@
 /* ==========================================================
-   TESLA SUPLA DASHBOARD v2.2
+   TESLA SUPLA DASHBOARD v3.0
 ========================================================== */
 
 const btnOpen = document.getElementById("btnOpen");
@@ -18,7 +18,7 @@ function setStatus(text, color = "#d9d9d9") {
 }
 
 /* ==========================================================
-   PRZYCISKI
+   BUTTONS
 ========================================================== */
 
 function lockButtons(lock) {
@@ -41,10 +41,10 @@ function stopLoading(button) {
 }
 
 /* ==========================================================
-   WYSŁANIE KOMENDY
+   COMMAND
 ========================================================== */
 
-async function sendCommand(button, url, successMessage) {
+async function sendCommand(button, url, successText) {
 
     lockButtons(true);
 
@@ -54,49 +54,42 @@ async function sendCommand(button, url, successMessage) {
 
     try {
 
-        const response = await fetch(url, {
+        await fetch(url, {
 
             method: "GET",
-            cache: "no-store"
+
+            cache: "no-store",
+
+            mode: "no-cors"
 
         });
 
-        if (!response.ok) {
-
-            throw new Error("HTTP " + response.status);
-
-        }
-
-        setStatus("🟢 " + successMessage, "#34C759");
+        setStatus("🟢 " + successText, "#34C759");
 
     }
 
-    catch (err) {
+    catch (error) {
 
-        console.error(err);
+        console.error(error);
 
         setStatus("🔴 Błąd połączenia", "#FF453A");
 
     }
 
-    finally {
+    setTimeout(() => {
 
-        setTimeout(() => {
+        stopLoading(button);
 
-            stopLoading(button);
+        lockButtons(false);
 
-            lockButtons(false);
+        setStatus("🟢 Gotowy", "#d9d9d9");
 
-            setStatus("🟢 Gotowy", "#d9d9d9");
-
-        }, 2000);
-
-    }
+    }, 2000);
 
 }
 
 /* ==========================================================
-   ZDARZENIA
+   EVENTS
 ========================================================== */
 
 btnOpen.addEventListener("click", () => {
@@ -107,7 +100,7 @@ btnOpen.addEventListener("click", () => {
 
         OPEN_URL,
 
-        "Polecenie OTWÓRZ wysłane"
+        "Brama otwierana"
 
     );
 
@@ -121,7 +114,7 @@ btnClose.addEventListener("click", () => {
 
         CLOSE_URL,
 
-        "Polecenie ZAMKNIJ wysłane"
+        "Brama zamykana"
 
     );
 
