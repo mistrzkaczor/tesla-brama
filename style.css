@@ -1,467 +1,87 @@
-/* ==========================================================
-   TESLA SUPLA DASHBOARD v2.0
-========================================================== */
+/* ==========================================
+   Tesla SUPLA Dashboard v2.1
+========================================== */
 
-:root{
+const btnOpen = document.getElementById("btnOpen");
+const btnClose = document.getElementById("btnClose");
+const message = document.getElementById("message");
 
-    --bg:#0f1012;
-    --panel:#1b1d21;
+/* ==========================================
+   ZMIANA STATUSU
+========================================== */
 
-    --green:#23c85b;
-    --green-dark:#169548;
+function setStatus(text, color = "#dddddd") {
 
-    --red:#ef3d3d;
-    --red-dark:#c91f25;
-
-    --accent:#e82127;
-
-    --white:#ffffff;
-    --gray:#d0d0d0;
+    message.textContent = text;
+    message.style.color = color;
 
 }
 
-*{
+/* ==========================================
+   BLOKADA PRZYCISKÓW
+========================================== */
 
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+function lockButtons(lock) {
 
-}
-
-body{
-
-    background:var(--bg);
-
-    color:white;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
+    btnOpen.disabled = lock;
+    btnClose.disabled = lock;
 
 }
 
-.container{
+/* ==========================================
+   WYSŁANIE KOMENDY
+========================================== */
 
-    width:min(1280px,96%);
+async function sendCommand(url, successText) {
 
-    margin:15px auto 30px;
+    lockButtons(true);
 
-}
+    setStatus("🔵 Wysyłanie polecenia...", "#4ea3ff");
 
-/* ==========================================================
-   HERO
-========================================================== */
+    try {
 
-.hero{
+        const response = await fetch(url);
 
-    background:linear-gradient(
-        180deg,
-        #202228,
-        #18191d
-    );
+        if (!response.ok) {
 
-    border-radius:30px;
+            throw new Error("HTTP " + response.status);
 
-    padding:48px;
+        }
 
-    margin-bottom:32px;
+        setStatus("🟢 " + successText, "#4ade80");
 
-    border:1px solid rgba(255,255,255,.08);
+    }
 
-    box-shadow:
-        0 18px 35px rgba(0,0,0,.35);
+    catch (err) {
 
-}
+        console.error(err);
 
-.hero-title{
+        setStatus("🔴 Błąd połączenia", "#ff5555");
 
-    text-align:center;
+    }
 
-    font-size:72px;
+    setTimeout(() => {
 
-    font-weight:300;
+        setStatus("🟢 Gotowy", "#dddddd");
 
-    letter-spacing:28px;
+        lockButtons(false);
 
-    color:white;
+    }, 2000);
 
 }
 
-.hero-line{
+/* ==========================================
+   PRZYCISKI
+========================================== */
 
-    width:420px;
+btnOpen.addEventListener("click", () => {
 
-    height:4px;
+    sendCommand(OPEN_URL, "Polecenie OTWÓRZ wysłane");
 
-    margin:28px auto;
+});
 
-    border-radius:20px;
+btnClose.addEventListener("click", () => {
 
-    background:linear-gradient(
-        90deg,
-        transparent,
-        var(--accent),
-        transparent
-    );
+    sendCommand(CLOSE_URL, "Polecenie ZAMKNIJ wysłane");
 
-}
-
-.hero-subtitle{
-
-    text-align:center;
-
-    color:#d4d4d4;
-
-    font-size:30px;
-
-    letter-spacing:4px;
-
-}
-
-/* ==========================================================
-   BUTTONS
-========================================================== */
-
-.action{
-
-    display:grid;
-
-    grid-template-columns:140px 1fr;
-
-    align-items:center;
-
-}
-
-.action{
-
-    display:flex;
-
-    align-items:center;
-
-    height:170px;
-
-    padding:0 65px;
-
-    border:none;
-
-    border-radius:28px;
-
-    cursor:pointer;
-
-    color:white;
-
-    transition:.18s;
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.15),
-        0 10px 25px rgba(0,0,0,.30);
-
-}
-
-.action:hover{
-
-    filter:brightness(1.05);
-
-    transform:translateY(-2px);
-
-}
-
-.action:active{
-
-    transform:scale(.985);
-
-}
-
-.action:disabled{
-
-    opacity:.45;
-
-    cursor:not-allowed;
-
-}
-
-/* Zielony */
-
-.action-open{
-
-    background:linear-gradient(
-        180deg,
-        var(--green),
-        var(--green-dark)
-    );
-
-}
-
-/* Czerwony */
-
-.action-close{
-
-    background:linear-gradient(
-        180deg,
-        var(--red),
-        var(--red-dark)
-    );
-
-}
-
-/* ==========================================================
-   IKONA
-========================================================== */
-
-.action-icon{
-
-    width:140px;
-
-    min-width:140px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-}
-
-.action-icon img{
-
-    width:76px;
-
-    height:76px;
-
-    transition:.25s;
-
-filter:drop-shadow(0 0 8px rgba(255,255,255,.15));
-
-
-}
-
-.action:hover img{
-
-    transform:scale(1.08);
-
-}
-
-/* ==========================================================
-   NAPIS
-========================================================== */
-
-.action-title{
-
-    flex:1;
-
-    text-align:center;
-
-    font-size:70px;
-
-    font-weight:700;
-
-    letter-spacing:1px;
-
-}
-
-/* ==========================================================
-   STATUS
-========================================================== */
-
-.status{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:22px;
-
-    margin:38px 0;
-
-}
-
-.status-line{
-
-    flex:1;
-
-    height:2px;
-
-    background:#404040;
-
-}
-
-.status-message{
-
-    min-width:220px;
-
-    text-align:center;
-
-    font-size:28px;
-
-    color:#d9d9d9;
-
-}
-
-/* ==========================================================
-   FOOTER
-========================================================== */
-
-footer{
-
-    text-align:center;
-
-    color:#9f9f9f;
-
-    font-size:22px;
-
-    padding-bottom:15px;
-
-}
-
-.footer-name{
-
-    color:#c8c8c8;
-
-}
-
-.footer-separator{
-
-    margin:0 10px;
-
-}
-
-.footer-version{
-
-    color:#ff2b2b;
-
-    font-weight:700;
-
-}
-
-/* ==========================================================
-   TABLET
-========================================================== */
-
-@media(max-width:900px){
-
-.hero-title{
-
-    font-size:52px;
-
-    letter-spacing:12px;
-
-}
-
-.hero-subtitle{
-
-    font-size:22px;
-
-}
-
-.action{
-
-    height:130px;
-
-    padding:0 25px;
-
-}
-
-.action-title{
-
-    font-size:38px;
-
-}
-
-.action-icon{
-
-    width:90px;
-
-    min-width:90px;
-
-}
-
-.action-icon img{
-
-    width:54px;
-
-    height:54px;
-
-}
-
-}
-
-/* ==========================================================
-   TELEFON
-========================================================== */
-
-@media(max-width:600px){
-
-.container{
-
-    width:96%;
-
-}
-
-.hero{
-
-    padding:60px;
-
-}
-
-.hero-title{
-
-    font-size:34px;
-
-    letter-spacing:8px;
-
-}
-
-.hero-subtitle{
-
-    font-size:18px;
-
-}
-
-.action{
-
-    height:100px;
-
-    padding:0 18px;
-
-}
-
-.action-title{
-
-    font-size:24px;
-
-}
-
-.action-icon{
-
-    width:60px;
-
-    min-width:60px;
-
-}
-
-.action-icon img{
-
-    width:36px;
-
-    height:36px;
-
-
-}
-
-.status-message{
-
-    font-size:18px;
-
-}
-
-footer{
-
-    font-size:15px;
-
-}
-
-}
+});
