@@ -3,14 +3,15 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<title>Tesla SUPLA Dashboard</title>
+    <title>Tesla SUPLA Dashboard</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -18,23 +19,17 @@
 
 <div class="container">
 
-    <!-- ==========================
-            BANER
-    =========================== -->
+    <!-- =====================================
+                    HERO
+    ====================================== -->
 
     <header class="hero">
 
-        <div class="hero-car">
-
-            <!-- tutaj później będzie SVG -->
-
-        </div>
-
-        <h1 class="hero-title">
+        <div class="hero-title">
 
             T E S L A
 
-        </h1>
+        </div>
 
         <div class="hero-line"></div>
 
@@ -46,60 +41,81 @@
 
     </header>
 
-    <!-- ==========================
-            AKCJE
-    =========================== -->
+    <!-- =====================================
+                PRZYCISKI
+    ====================================== -->
 
-    <main>
+    <main class="actions">
 
         <button
             id="btnOpen"
             class="action action-open">
 
-            <span class="action-icon">
+            <div class="action-icon">
 
                 🟢
 
-            </span>
+            </div>
 
-            <span class="action-text">
+            <div class="action-content">
 
-                OTWÓRZ BRAMĘ
+                <div class="action-title">
 
-            </span>
+                    OTWÓRZ BRAMĘ
+
+                </div>
+
+                <div class="action-description">
+
+                    Otwiera bramę wjazdową
+
+                </div>
+
+            </div>
 
         </button>
-
 
         <button
             id="btnClose"
             class="action action-close">
 
-            <span class="action-icon">
+            <div class="action-icon">
 
                 🔴
 
-            </span>
+            </div>
 
-            <span class="action-text">
+            <div class="action-content">
 
-                ZAMKNIJ BRAMĘ
+                <div class="action-title">
 
-            </span>
+                    ZAMKNIJ BRAMĘ
+
+                </div>
+
+                <div class="action-description">
+
+                    Zamyka bramę wjazdową
+
+                </div>
+
+            </div>
 
         </button>
 
     </main>
 
-    <!-- ==========================
-            STATUS
-    =========================== -->
+    <!-- =====================================
+                STATUS
+    ====================================== -->
 
     <section class="status">
 
         <div class="status-line"></div>
 
-        <div id="message">
+        <div
+            id="message"
+            class="status-message">
 
             Gotowy
 
@@ -109,13 +125,13 @@
 
     </section>
 
-    <!-- ==========================
-            STOPKA
-    =========================== -->
+    <!-- =====================================
+                STOPKA
+    ====================================== -->
 
     <footer>
 
-        <span class="footer-name">
+        <span>
 
             Tesla SUPLA Dashboard
 
@@ -138,6 +154,7 @@
 </div>
 
 <script src="config.js"></script>
+
 <script src="app.js"></script>
 
 </body>
