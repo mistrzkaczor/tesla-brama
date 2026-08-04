@@ -209,7 +209,9 @@ body{
 
 .btn:active{
 
-    transform:scale(.97);
+    transform:translateY(1px) scale(.98);
+
+    filter:brightness(.96);
 
 }
 
