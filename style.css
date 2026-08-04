@@ -281,16 +281,15 @@ body{
 
 .btn-icon img{
 
-    width:96px;
+    width:110px;
+    height:110px;
 
-    height:96px;
-
-    transition:.25s;
+    transition:
+        transform .20s ease,
+        filter .30s ease;
 
     filter:drop-shadow(
-
-        0 0 10px rgba(255,255,255,.18)
-
+        0 0 12px rgba(255,255,255,.20)
     );
 
 }
