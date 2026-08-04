@@ -85,7 +85,7 @@ body{
 
     font-weight:300;
 
-    letter-spacing:22px;
+    letter-spacing:28px;
 
     color:white;
 
@@ -332,7 +332,7 @@ footer{
 
 .footer-version{
 
-    color:var(--accent);
+    color:#ff2b2b;
 
     font-weight:700;
 
