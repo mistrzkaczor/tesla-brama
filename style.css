@@ -1,6 +1,5 @@
 /* ==========================================
    Tesla SUPLA Dashboard v1.0
-   style.css
 ========================================== */
 
 *{
@@ -11,7 +10,7 @@
 
 body{
 
-    background:#0f0f10;
+    background:#111111;
     color:#ffffff;
 
     font-family:
@@ -34,21 +33,21 @@ body{
 
 }
 
-/* ===========================
+/* ==========================================
    Nagłówek
-=========================== */
+========================================== */
 
 header{
 
     text-align:center;
 
-    margin-bottom:35px;
+    margin-bottom:50px;
 
 }
 
 h1{
 
-    font-size:52px;
+    font-size:54px;
 
     font-weight:600;
 
@@ -58,7 +57,7 @@ h1{
 
 .subtitle{
 
-    margin-top:10px;
+    margin-top:12px;
 
     color:#888;
 
@@ -66,106 +65,45 @@ h1{
 
 }
 
-/* ===========================
-   Status
-=========================== */
-
-.status-card{
-
-    background:#1b1b1d;
-
-    border-radius:28px;
-
-    padding:35px;
-
-    text-align:center;
-
-    box-shadow:
-        0 0 30px rgba(255,255,255,.03);
-
-}
-
-.status-icon{
-
-    font-size:80px;
-
-    margin-bottom:15px;
-
-}
-
-.status-text{
-
-    font-size:40px;
-
-    font-weight:bold;
-
-}
-
-.status-update{
-
-    margin-top:20px;
-
-    color:#888;
-
-    font-size:18px;
-
-}
-
-/* Kolory statusu */
-
-.status-open{
-
-    color:#ff5c5c;
-
-}
-
-.status-closed{
-
-    color:#29d15b;
-
-}
-
-.status-error{
-
-    color:#ffcc00;
-
-}
-
-/* ===========================
+/* ==========================================
    Przyciski
-=========================== */
+========================================== */
 
 .buttons{
-
-    margin-top:35px;
 
     display:flex;
 
     flex-direction:column;
 
-    gap:25px;
+    gap:35px;
 
 }
 
 .btn{
 
-    height:160px;
+    width:100%;
+
+    height:180px;
 
     border:none;
 
-    border-radius:28px;
-
-    font-size:42px;
-
-    font-weight:bold;
+    border-radius:30px;
 
     cursor:pointer;
 
-    transition:.18s;
+    color:white;
+
+    font-size:48px;
+
+    font-weight:700;
+
+    transition:all .2s ease;
 
 }
 
 .btn:hover{
+
+    filter:brightness(1.08);
 
     transform:translateY(-2px);
 
@@ -179,7 +117,7 @@ h1{
 
 .btn:disabled{
 
-    opacity:.40;
+    opacity:.45;
 
     cursor:not-allowed;
 
@@ -187,37 +125,33 @@ h1{
 
 .btn-open{
 
-    background:#20b64c;
-
-    color:white;
+    background:#1db954;
 
 }
 
 .btn-close{
 
-    background:#d53333;
-
-    color:white;
+    background:#d92f2f;
 
 }
 
-/* ===========================
+/* ==========================================
    Stopka
-=========================== */
+========================================== */
 
 footer{
 
-    margin-top:35px;
-
     text-align:center;
+
+    margin-top:45px;
 
 }
 
 #message{
 
-    min-height:32px;
+    min-height:30px;
 
-    font-size:24px;
+    font-size:28px;
 
     color:#dddddd;
 
@@ -225,86 +159,68 @@ footer{
 
 .version{
 
-    margin-top:20px;
+    margin-top:18px;
 
     color:#666;
 
-    font-size:16px;
+    font-size:15px;
 
 }
 
-/* ===========================
-   RESPONSYWNOŚĆ
-=========================== */
+/* ==========================================
+   Responsywność
+========================================== */
 
-@media(max-width:900px){
+@media(max-width:800px){
 
-.container{
+    h1{
 
-    padding:20px;
+        font-size:40px;
 
-}
+    }
 
-h1{
+    .subtitle{
 
-    font-size:40px;
+        font-size:20px;
 
-}
+    }
 
-.subtitle{
+    .btn{
 
-    font-size:20px;
+        height:140px;
 
-}
+        font-size:34px;
 
-.status-icon{
-
-    font-size:64px;
+    }
 
 }
 
-.status-text{
+@media(max-width:500px){
 
-    font-size:32px;
+    .container{
 
-}
+        padding:18px;
 
-.btn{
+    }
 
-    height:120px;
+    h1{
 
-    font-size:30px;
+        font-size:30px;
 
-}
+    }
 
-}
+    .subtitle{
 
-@media(max-width:600px){
+        font-size:18px;
 
-h1{
+    }
 
-    font-size:32px;
+    .btn{
 
-}
+        height:110px;
 
-.status-text{
+        font-size:26px;
 
-    font-size:26px;
-
-}
-
-.btn{
-
-    height:95px;
-
-    font-size:24px;
-
-}
-
-.subtitle{
-
-    font-size:18px;
-
-}
+    }
 
 }
