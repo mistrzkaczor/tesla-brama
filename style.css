@@ -101,10 +101,10 @@ body{
 
 .hero:hover{
 
-    border-color:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.09);
 
     box-shadow:
-        0 24px 45px rgba(0,0,0,.45);
+        0 22px 42px rgba(0,0,0,.42);
 
 }
 
