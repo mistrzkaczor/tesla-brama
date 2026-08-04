@@ -81,4 +81,16 @@ async function sendCommand(url) {
 
     }, 2000);
 
+function startLoading(button){
+
+    button.classList.add("loading");
+
+}
+
+function stopLoading(button){
+
+    button.classList.remove("loading");
+
+}
+   
 }
