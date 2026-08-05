@@ -574,3 +574,111 @@ footer{
     }
 
 }
+/* ==========================================================
+   LOW HEIGHT DISPLAYS
+   (Tesla, niskie okna przeglądarki)
+========================================================== */
+
+@media (max-height: 820px) {
+
+    .container{
+
+        width:96%;
+
+        margin:12px auto;
+
+    }
+
+    /* ---------- BANER ---------- */
+
+    .hero{
+
+        padding:28px 45px;
+
+        margin-bottom:20px;
+
+        border-radius:26px;
+
+    }
+
+    .hero-logo{
+
+        font-size:58px;
+
+        letter-spacing:18px;
+
+    }
+
+    .hero-line{
+
+        width:320px;
+
+        margin:18px auto;
+
+    }
+
+    .hero-subtitle{
+
+        font-size:22px;
+
+    }
+
+    /* ---------- PRZYCISKI ---------- */
+
+    .buttons{
+
+        gap:18px;
+
+    }
+
+    .btn{
+
+        height:140px;
+
+        grid-template-columns:130px 1fr;
+
+        padding:0 35px;
+
+    }
+
+    .btn-icon img{
+
+        width:82px;
+
+        height:82px;
+
+    }
+
+    .btn-text{
+
+        font-size:52px;
+
+    }
+
+    /* ---------- STATUS ---------- */
+
+    .status{
+
+        margin:20px 0;
+
+    }
+
+    .status-text{
+
+        font-size:24px;
+
+    }
+
+    /* ---------- STOPKA ---------- */
+
+    footer{
+
+        margin-top:8px;
+
+        font-size:16px;
+
+        padding-bottom:5px;
+
+    }
+
+}
