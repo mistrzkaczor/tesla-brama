@@ -717,9 +717,11 @@ footer{
 
 .btn-inactive{
 
-    opacity:.55 !important;
+    opacity:.20 !important;
 
-    filter:saturate(.45);
+    transform:scale(.96);
+
+    filter:grayscale(1);
 
 }
    }
