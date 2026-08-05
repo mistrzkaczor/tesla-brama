@@ -40,6 +40,24 @@ function stopLoading(button) {
 
 }
 
+function updateButtons(isClosed){
+
+    if(isClosed){
+
+        btnOpen.classList.remove("btn-inactive");
+        btnClose.classList.add("btn-inactive");
+
+    }else{
+
+        btnOpen.classList.add("btn-inactive");
+        btnClose.classList.remove("btn-inactive");
+
+    }
+
+}
+
+
+
 /* ==========================================
    STATUS
 ========================================== */
@@ -54,7 +72,7 @@ async function readGateStatus(){
 
       const data = await response.json();
 
-      if (!data.connected) {
+     if (!data.connected) {
 
     setStatus("⚪ Brak połączenia", "#9ca3af");
 
@@ -63,10 +81,14 @@ else if (data.hi) {
 
     setStatus("🟢 Brama zamknięta", "#34C759");
 
+    updateButtons(true);
+
 }
 else {
 
     setStatus("🔴 Brama otwarta", "#FF453A");
+
+    updateButtons(false);
 
 }
 
