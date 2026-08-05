@@ -17,7 +17,7 @@ const CONFIG = {
 
     // Link do odczytu statusu
     STATUS_URL:
-    "https://svr20.supla.org/direct/1632/hMj8i64QTPFPN",
+    "https://svr20.supla.org/direct/1632/hMj8i64QTPFPN/read?format=json",
 
 
  // Odświeżanie statusu (ms)
