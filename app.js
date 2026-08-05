@@ -1,27 +1,6 @@
 /* ==========================================================
    TESLA SUPLA DASHBOARD v3.0
 ========================================================== */
-if (!data.connected) {
-
-    setStatus("⚪ Brak połączenia", "#9ca3af");
-
-}
-else if (data.hi) {
-
-    setStatus("🟢 Brama zamknięta", "#34C759");
-
-}
-else {
-
-    setStatus("🔴 Brama otwarta", "#FF453A");
-
-}
-
-if (CONFIG.DEBUG) {
-
-    console.log(data);
-
-}
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
@@ -75,8 +54,27 @@ async function readGateStatus(){
 
       const data = await response.json();
 
-      console.log(text);
+      if (!data.connected) {
 
+    setStatus("⚪ Brak połączenia", "#9ca3af");
+
+}
+else if (data.hi) {
+
+    setStatus("🟢 Brama zamknięta", "#34C759");
+
+}
+else {
+
+    setStatus("🔴 Brama otwarta", "#FF453A");
+
+}
+
+if (CONFIG.DEBUG) {
+
+    console.log(data);
+
+}
  
 
     }
