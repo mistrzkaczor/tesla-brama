@@ -1,6 +1,7 @@
 /* ==========================================================
    TESLA SUPLA DASHBOARD v3.0
 ========================================================== */
+console.log("APP VERSION 3.1 TEST 23:15");
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
