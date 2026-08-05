@@ -40,6 +40,28 @@ function stopLoading(button) {
 
 }
 
+/* ==========================================
+   STATUS
+========================================== */
+
+async function readGateStatus(){
+
+    try {
+
+        const response = await fetch(CONFIG.STATUS_URL);
+
+        console.log(response);
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
 /* ==========================================================
    COMMAND
 ========================================================== */
