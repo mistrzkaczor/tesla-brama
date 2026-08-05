@@ -598,6 +598,34 @@ footer{
     }
 
 }
+
+/* ==========================================================
+   RESPONSYWNOŚĆ
+========================================================== */
+.btn-inactive{
+
+    filter:brightness(.78);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.08),
+        0 4px 10px rgba(0,0,0,.18);
+
+}
+
+.btn-inactive .btn-text{
+
+    opacity:.55;
+
+}
+
+.btn-inactive .btn-icon{
+
+    opacity:.55;
+
+}
+
+
+
 /* ==========================================================
    LOW HEIGHT DISPLAYS
    (Tesla, niskie okna przeglądarki)
@@ -715,25 +743,5 @@ footer{
     }
 
 
-.btn-inactive{
 
-    filter:brightness(.78);
-
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.08),
-        0 4px 10px rgba(0,0,0,.18);
-
-}
-
-.btn-inactive .btn-text{
-
-    opacity:.55;
-
-}
-
-.btn-inactive .btn-icon{
-
-    opacity:.55;
-
-}
    }
