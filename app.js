@@ -52,11 +52,9 @@ async function readGateStatus(){
 
         const response = await fetch(CONFIG.STATUS_URL);
 
-        const response = await fetch(CONFIG.STATUS_URL);
+        const data = await response.json();
 
-         const data = await response.json();
-
-         console.log(data);
+        console.log(data);
 
     }
 
