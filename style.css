@@ -717,11 +717,23 @@ footer{
 
 .btn-inactive{
 
-    opacity:.20 !important;
+    filter:brightness(.78);
 
-    transform:scale(.96);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.08),
+        0 4px 10px rgba(0,0,0,.18);
 
-    filter:grayscale(1);
+}
+
+.btn-inactive .btn-text{
+
+    opacity:.55;
+
+}
+
+.btn-inactive .btn-icon{
+
+    opacity:.55;
 
 }
    }
