@@ -153,5 +153,5 @@ btnClose.addEventListener("click", () => {
 window.addEventListener("load", () => {
 
     setStatus("🟢 Gotowy");
-
+    readGateStatus();
 });
