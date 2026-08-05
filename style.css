@@ -714,4 +714,12 @@ footer{
 
     }
 
+
+.btn-inactive{
+
+    opacity:.45;
+
+    filter:saturate(.6);
+
 }
+   }
