@@ -46,17 +46,19 @@ function stopLoading(button) {
 
 async function readGateStatus(){
 
-    try {
+    console.log("readGateStatus()");
+
+    try{
 
         const response = await fetch(CONFIG.STATUS_URL);
 
-        console.log(response);
+        console.log("Response:", response);
 
     }
 
     catch(error){
 
-        console.error(error);
+        console.error("BŁĄD:", error);
 
     }
 
