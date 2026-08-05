@@ -127,15 +127,15 @@ async function sendCommand(button, url, successText) {
 
     }
 
-    setTimeout(() => {
+  setTimeout(() => {
 
-        stopLoading(button);
+    stopLoading(button);
 
-        lockButtons(false);
+    lockButtons(false);
 
-        setStatus("🟢 Gotowy", "#d9d9d9");
+    readGateStatus();
 
-    }, CONFIG.MESSAGE_TIMEOUT);
+}, CONFIG.MESSAGE_TIMEOUT);
 
 }
 
@@ -177,5 +177,8 @@ btnClose.addEventListener("click", () => {
 
 window.addEventListener("load", () => {
 
-        readGateStatus();
+    readGateStatus();
+
+    setInterval(readGateStatus, CONFIG.REFRESH_INTERVAL);
+
 });
