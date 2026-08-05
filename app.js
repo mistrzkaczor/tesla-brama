@@ -42,6 +42,8 @@ function stopLoading(button) {
 
 function updateButtons(isClosed){
 
+    console.log("updateButtons:", isClosed);
+
     if(isClosed){
 
         btnOpen.classList.remove("btn-inactive");
