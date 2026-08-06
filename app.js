@@ -1,5 +1,5 @@
 /* ==========================================================
-   TESLA SUPLA DASHBOARD v3.1
+   TESLA SUPLA DASHBOARD v3.2
 ========================================================== */
 
 const btnOpen = document.getElementById("btnOpen");
@@ -135,11 +135,24 @@ async function readGateStatus(){
 
 async function sendCommand(button, url, successText) {
 
-    lockButtons(true);
+lockButtons(true);
 
-    startLoading(button);
+startLoading(button);
 
-    setStatus("🔵 Wysyłanie polecenia...", "#4EA3FF");
+if (button === btnOpen) {
+
+    gateState = "opening";
+
+    setStatus("🔵 Otwieranie bramy...", "#4EA3FF");
+
+}
+else {
+
+    gateState = "closing";
+
+    setStatus("🔵 Zamykanie bramy...", "#4EA3FF");
+
+}
 
     try {
 
