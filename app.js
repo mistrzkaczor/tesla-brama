@@ -7,6 +7,14 @@ const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
 
 /* ==========================================================
+   GATE STATE
+========================================================== */
+
+let gateState = "idle";
+
+
+
+/* ==========================================================
    STATUS
 ========================================================== */
 
@@ -66,40 +74,50 @@ function updateButtons(isClosed){
 
 async function readGateStatus(){
 
-    console.log("readGateStatus()");
+    // Nie odświeżaj podczas ruchu bramy
+    if (gateState !== "idle") {
+
+        return;
+
+    }
+
+    if (CONFIG.DEBUG) {
+
+        console.log("readGateStatus()");
+
+    }
 
     try{
 
         const response = await fetch(CONFIG.STATUS_URL);
 
-      const data = await response.json();
+        const data = await response.json();
 
-     if (!data.connected) {
+        if (!data.connected) {
 
-    setStatus("⚪ Brak połączenia", "#9ca3af");
+            setStatus("⚪ Brak połączenia", "#9ca3af");
 
-}
-else if (data.hi) {
+        }
+        else if (data.hi) {
 
-    setStatus("🟢 Brama zamknięta", "#34C759");
+            setStatus("🟢 Brama zamknięta", "#34C759");
 
-    updateButtons(true);
+            updateButtons(true);
 
-}
-else {
+        }
+        else {
 
-    setStatus("🔴 Brama otwarta", "#FF453A");
+            setStatus("🔴 Brama otwarta", "#FF453A");
 
-    updateButtons(false);
+            updateButtons(false);
 
-}
+        }
 
-if (CONFIG.DEBUG) {
+        if (CONFIG.DEBUG) {
 
-    console.log(data);
+            console.log(data);
 
-}
- 
+        }
 
     }
 
