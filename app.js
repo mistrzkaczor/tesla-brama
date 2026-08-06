@@ -128,6 +128,27 @@ async function readGateStatus(){
     }
 
 }
+/* ==========================================
+   GATE MOVEMENT
+========================================== */
+
+function startGateMovement(direction){
+
+    gateState = direction;
+
+    if(direction === "opening"){
+
+        setStatus("🔵 Otwieranie bramy...", "#4EA3FF");
+
+    }
+    else{
+
+        setStatus("🔵 Zamykanie bramy...", "#4EA3FF");
+
+    }
+
+}
+
 
 /* ==========================================================
    COMMAND
@@ -139,18 +160,14 @@ lockButtons(true);
 
 startLoading(button);
 
-if (button === btnOpen) {
+if(button === btnOpen){
 
-    gateState = "opening";
-
-    setStatus("🔵 Otwieranie bramy...", "#4EA3FF");
+    startGateMovement("opening");
 
 }
-else {
+else{
 
-    gateState = "closing";
-
-    setStatus("🔵 Zamykanie bramy...", "#4EA3FF");
+    startGateMovement("closing");
 
 }
 
