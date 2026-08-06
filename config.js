@@ -19,15 +19,20 @@ const CONFIG = {
     STATUS_URL:
     "https://svr20.supla.org/direct/1632/hMj8i64QTPFPN/read?format=json",
 
+// Otwieranie bramy (ms)
+OPEN_TIME: 30000,
 
- // Odświeżanie statusu (ms)
-    REFRESH_INTERVAL: 5000,
+// Zamykanie bramy (ms)
+CLOSE_TIME: 35000,
 
-    // Czas wyświetlania komunikatu po wysłaniu polecenia
-    MESSAGE_TIMEOUT: 2000,
+// Odświeżanie statusu (ms)
+REFRESH_INTERVAL: 2000,
 
-    // Włącz diagnostykę
-    DEBUG: true
+// Czas wyświetlania komunikatu
+MESSAGE_TIMEOUT: 2000,
+
+// Tryb debug
+DEBUG: true
 
 
 };
