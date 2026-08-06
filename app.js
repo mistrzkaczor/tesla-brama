@@ -201,8 +201,10 @@ btnClose.addEventListener("click", () => {
 
 window.addEventListener("load", () => {
 
+    setStatus("🟢 Łączenie...");
+
     readGateStatus();
 
-    setInterval(readGateStatus, CONFIG.REFRESH_INTERVAL);
+    setInterval(readGateStatus, 2000);
 
 });
