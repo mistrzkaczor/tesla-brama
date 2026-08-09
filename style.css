@@ -1,0 +1,742 @@
+/* ==========================================================
+   Tesla Gate Dashboard v3.3-stable
+========================================================== */
+
+
+:root{
+
+    --bg:#111214;
+    --panel:#1d1f24;
+
+--green:#3B6B4D;
+--greenDark:#2D533C;
+
+--red:#D94A43;
+--redDark:#A73733;
+
+    --accent:#E82127;
+
+    --white:#ffffff;
+    --gray:#d5d5d5;
+
+}
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+html{
+
+    height:100%;
+
+}
+
+body{
+
+    min-height:100%;
+
+    background:var(--bg);
+
+    color:var(--white);
+
+    font-family:
+
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+}
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.container{
+
+    width:min(1250px,95%);
+
+    margin:25px auto;
+
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero{
+
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(255,255,255,.03),
+            transparent 60%
+        ),
+        linear-gradient(
+            180deg,
+            #24272D,
+            #1B1D22
+        );
+
+    border-radius:32px;
+
+    padding:40px 55px;
+
+    margin-bottom:35px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+        0 16px 32px rgba(0,0,0,.28);
+
+    transition:
+        box-shadow .30s ease,
+        border-color .30s ease;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.hero:hover{
+
+  border-color:rgba(255,255,255,.09);
+
+    box-shadow:
+        0 22px 42px rgba(0,0,0,.42);
+
+}
+
+
+.hero-logo{
+
+    text-align:center;
+
+    font-size:74px;
+
+    font-weight:300;
+
+    letter-spacing:24px;
+
+    color:white;
+
+}
+
+.hero-line{
+
+    width:420px;
+
+    height:4px;
+
+    margin:28px auto;
+
+    border-radius:50px;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        var(--accent),
+
+        transparent
+
+    );
+
+}
+
+.hero-subtitle{
+
+    text-align:center;
+
+    font-size:30px;
+
+    color:#d6d6d6;
+
+    letter-spacing:3px;
+
+}
+
+.hero-version{
+
+    position:absolute;
+
+    right:24px;
+
+    bottom:18px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    letter-spacing:.8px;
+
+    color:var(--accent);
+
+    opacity:.75;
+
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.buttons{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:28px;
+
+}
+
+.btn{
+
+    display:grid;
+
+    grid-template-columns:150px 1fr;
+
+    align-items:center;
+
+    height:180px;
+
+    border:none;
+
+    border-radius:30px;
+
+    padding:0 50px;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:
+
+        transform .25s,
+
+        filter .25s,
+
+        box-shadow .25s;
+
+    box-shadow:
+
+        inset 0 1px rgba(255,255,255,.15),
+
+        0 12px 25px rgba(0,0,0,.28);
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+    filter:brightness(1.02);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.18),
+        0 20px 38px rgba(0,0,0,.45);
+
+}
+
+.btn:active{
+
+    transform:translateY(1px) scale(.98);
+
+    filter:brightness(.96);
+
+}
+
+.btn:disabled{
+
+    cursor:not-allowed;
+
+}
+
+.btn-open{
+
+background:
+linear-gradient(
+180deg,
+#446F56,
+#355744
+);
+
+}
+
+.btn-close{
+
+background:
+linear-gradient(
+180deg,
+#D94A43,
+#A73733
+);
+
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.btn-icon{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.btn-icon img{
+
+    width:130px;
+    height:130px;
+
+    transition:
+        transform .20s ease,
+        filter .30s ease;
+
+    filter:drop-shadow(
+        0 0 8px rgba(255,255,255,.16)
+    );
+
+}
+
+.btn:hover .btn-icon img{
+
+    transform:scale(1.08);
+
+}
+
+/* ==========================================================
+   TEXT
+========================================================== */
+
+.btn-text{
+
+    text-align:center;
+
+    font-size:68px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+}
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin:42px 0;
+
+}
+
+.status-line{
+
+    flex:1;
+
+    height:2px;
+
+    background:#474747;
+
+}
+
+.status-text{
+
+    min-width:240px;
+
+    text-align:center;
+
+    font-size:28px;
+
+    color:#d9d9d9;
+
+    font-weight:500;
+
+}
+
+/* ==========================================================
+   STOPKA
+========================================================== */
+
+footer{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-top:20px;
+
+    padding-bottom:15px;
+
+    font-size:20px;
+
+    color:#9f9f9f;
+
+}
+
+.footer-separator{
+
+    opacity:.6;
+
+}
+
+.footer-version{
+
+    color:var(--accent);
+
+    font-weight:700;
+
+}
+
+/* ==========================================================
+   ANIMACJE
+========================================================== */
+
+.btn.loading{
+
+    transform:scale(.985);
+
+    filter:brightness(.96);
+
+}
+
+.btn.loading .btn-icon img{
+
+    animation:pulse 1s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+        filter:drop-shadow(
+            0 0 8px rgba(255,255,255,.18)
+        );
+
+    }
+
+    50%{
+
+        transform:scale(1.12);
+
+        filter:drop-shadow(
+            0 0 18px rgba(255,255,255,.45)
+        );
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        filter:drop-shadow(
+            0 0 8px rgba(255,255,255,.18)
+        );
+
+    }
+
+}
+
+/* ==========================================================
+   RESPONSYWNOŚĆ
+========================================================== */
+
+@media (max-width:900px){
+
+    .hero{
+
+        padding:35px;
+
+    }
+
+    .hero-logo{
+
+        font-size:52px;
+
+        letter-spacing:12px;
+
+    }
+
+    .hero-line{
+
+        width:260px;
+
+    }
+
+    .hero-subtitle{
+
+        font-size:20px;
+
+    }
+
+    .btn{
+
+        grid-template-columns:90px 1fr;
+
+        height:130px;
+
+        padding:0 25px;
+
+    }
+
+    .btn-text{
+
+        font-size:38px;
+
+    }
+
+    .btn-icon img{
+
+        width:52px;
+
+        height:52px;
+
+    }
+
+}
+
+@media (max-width:600px){
+
+    .container{
+
+        width:96%;
+
+    }
+
+    .hero{
+
+        padding:28px;
+
+    }
+
+    .hero-logo{
+
+        font-size:34px;
+
+        letter-spacing:8px;
+
+    }
+
+    .hero-line{
+
+        width:180px;
+
+    }
+
+    .hero-subtitle{
+
+        font-size:18px;
+
+    }
+
+    .btn{
+
+        grid-template-columns:60px 1fr;
+
+        height:95px;
+
+        padding:0 18px;
+
+    }
+
+    .btn-text{
+
+        font-size:22px;
+
+    }
+
+    .btn-icon img{
+
+        width:36px;
+
+        height:36px;
+
+    }
+
+    .status-text{
+
+        font-size:18px;
+
+    }
+
+    footer{
+
+        font-size:15px;
+
+    }
+
+}
+
+/* ==========================================================
+   RESPONSYWNOŚĆ
+========================================================== */
+.btn-inactive{
+
+filter:saturate(.55) brightness(.82);
+
+opacity:.82;
+
+    transition: filter .25s ease;
+
+}
+
+.btn-inactive .btn-text{
+
+    opacity:.82;
+
+}
+
+.btn-inactive .btn-icon{
+
+    opacity:.70;
+    filter:saturate(.50);
+
+}
+
+
+
+/* ==========================================================
+   LOW HEIGHT DISPLAYS
+   (Tesla, niskie okna przeglądarki)
+========================================================== */
+
+@media (max-height: 820px) {
+
+    .container{
+
+        width:96%;
+
+        margin:12px auto;
+
+    }
+
+    /* ---------- BANER ---------- */
+
+    .hero{
+
+        padding:22px 40px;
+
+        margin-bottom:20px;
+
+        border-radius:26px;
+
+    }
+
+    .hero-logo{
+
+        font-size:54px;
+
+        letter-spacing:18px;
+
+    }
+
+    .hero-line{
+
+        width:320px;
+
+        margin:14px auto;
+
+    }
+
+    .hero-subtitle{
+
+        font-size:22px;
+
+    }
+
+   .hero-version{
+
+    right:22px;
+
+    bottom:12px;
+
+    font-size:13px;
+
+}
+    /* ---------- PRZYCISKI ---------- */
+
+    .buttons{
+
+        gap:14px;
+
+    }
+
+    .btn{
+
+        height:130px;
+
+        grid-template-columns:130px 1fr;
+
+        padding:0 35px;
+
+    }
+
+    .btn-icon img{
+
+        width:82px;
+
+        height:82px;
+
+    }
+
+    .btn-text{
+
+        font-size:52px;
+
+    }
+
+    /* ---------- STATUS ---------- */
+
+    .status{
+
+        margin:12px 0;
+
+    }
+
+    .status-text{
+
+        font-size:24px;
+
+    }
+
+    /* ---------- STOPKA ---------- */
+
+    footer{
+
+        margin-top:4px;
+
+        font-size:16px;
+
+        padding-bottom:0px;
+
+    }
+
+
+
+   }
