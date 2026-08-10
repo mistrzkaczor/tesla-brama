@@ -20,11 +20,6 @@ let pendingConfirmationButton = null;
 let confirmationTimer = null;
 
 
-if (versionElement) {
-    versionElement.textContent = `v${CONFIG.VERSION}`;
-}
-
-
 /* ==========================================================
    STATUS
 ========================================================== */
