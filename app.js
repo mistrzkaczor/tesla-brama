@@ -2,16 +2,10 @@
    Tesla Gate Dashboard
   =========================================================== */
 
-/* ==========================================================
-   WERSJA PROGRAMU
-========================================================== */
-const version = document.getElementById("version");
-
-
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
-
+const versionElement = document.getElementById("version");
 
 /* ==========================================================
    STATUS
