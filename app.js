@@ -9,14 +9,15 @@ const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
 const versionElement = document.getElementById("version");
 
+// Informacja, czy komenda otwierania lub zamykania jest w toku
+let commandInProgress = false;
+
+
+
 if (versionElement) {
     versionElement.textContent = `v${CONFIG.VERSION}`;
 }
 
-if (message) {
-    message.textContent = "🔵 JavaScript działa";
-    message.style.color = "#4EA3FF";
-}
 
 /* ==========================================================
    STATUS
@@ -344,13 +345,15 @@ async function sendCommand(
         return;
     }
 
-    setTimeout(async () => {
-        stopLoading(button);
+   setTimeout(async () => {
+    stopLoading(button);
 
+    try {
         await verifyGateState(expectedState);
-
+    } finally {
         commandInProgress = false;
-    }, CONFIG.VERIFY_DELAY);
+    }
+}, CONFIG.VERIFY_DELAY);
 }
 
 /* ==========================================================
