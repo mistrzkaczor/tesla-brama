@@ -5,6 +5,9 @@
 
 const CONFIG = {
 
+// wersja aplikacji
+VERSION: "4.0.0",
+   
 // Link do otwarcia bramy
     OPEN_URL:
     "https://svr20.supla.org/direct/1630/7ebdAmEowLmG/open",
