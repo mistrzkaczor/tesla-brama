@@ -23,8 +23,8 @@ VERSION: "3.2.1",
 // Czas wyświetlania komunikatu
 MESSAGE_TIMEOUT: 2000,
 
-// Pierwsza kontrola po 20 sekundach
-VERIFY_INITIAL_DELAY: 20000,
+// Pierwsza kontrola po 30 sekundach
+VERIFY_INITIAL_DELAY: 30000,
 
 // Kolejne kontrole co 5 sekund
 VERIFY_RETRY_DELAY: 5000,
