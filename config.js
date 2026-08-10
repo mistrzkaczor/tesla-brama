@@ -32,6 +32,9 @@ VERIFY_RETRY_DELAY: 5000,
 // Maksymalnie 4 próby
 VERIFY_MAX_ATTEMPTS: 4,
 
+// Czas na ponowne dotknięcie przycisku
+CONFIRM_TIMEOUT: 3000,
+   
 // Maksymalny czas oczekiwania na odpowiedź API
 FETCH_TIMEOUT: 5000,
 
