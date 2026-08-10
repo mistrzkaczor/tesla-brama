@@ -405,6 +405,35 @@ btnClose.addEventListener("click", () => {
 });
 
 /* ==========================================================
+   POWRÓT DO KARTY APLIKACJI
+========================================================== */
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        if (CONFIG.DEBUG) {
+            console.log("Aplikacja działa w tle.");
+        }
+
+        return;
+    }
+
+    if (CONFIG.DEBUG) {
+        console.log(
+            "Powrót do aplikacji. Odświeżanie statusu..."
+        );
+    }
+
+    if (!commandInProgress) {
+        setStatus(
+            "🔵 Aktualizowanie statusu...",
+            "#4EA3FF"
+        );
+
+        readGateStatus();
+    }
+});
+
+/* ==========================================================
    URUCHOMIENIE APLIKACJI
 ========================================================== */
 
