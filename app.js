@@ -379,22 +379,25 @@ btnClose.addEventListener("click", () => {
    URUCHOMIENIE APLIKACJI
 ========================================================== */
 
-window.addEventListener("load", () => {
-    console.log("STRONA ZAŁADOWANA");
-    console.log("CONFIG:", CONFIG);
-    console.log("VERSION:", CONFIG.VERSION);
-    console.log("ELEMENT VERSION:", versionElement);
+window.addEventListener("load",*() => {
+    console.log("STRONA ZA*ADOWANA");
+    console.log("CONFIG*", CONFIG);
+    console.log("VERSI*N:", CONFIG.VERSION);
+    console.*og("ELEMENT VERSION:", versionElem*nt);
 
     if (versionElement) {
-        versionElement.textContent = `v${CONFIG.VERSION}`;
+  *     versionElement.textContent = *v${CONFIG.VERSION}`;
     }
 
-    setStatus("🟢 Łączenie...", "#34C759");
+    se*Status("🟢 Łączenie...", "#34C759"*;
 
-    readGateStatus();
+    // Pierwszy odczyt po uruch*mieniu aplikacji
+    readGateStatu*();
 
-    setInterval(
-        readGateStatus,
-        CONFIG.REFRESH_INTERVAL
-    );
+    // Kolejne odczyty, ale t*lko gdy nie trwa obsługa komendy
+ *  setInterval(() => {
+        if (*commandInProgress) {
+            r*adGateStatus();
+        }
+    }, C*NFIG.REFRESH_INTERVAL);
 });
