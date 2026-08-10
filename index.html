@@ -1,65 +1,139 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Tesla Gate</title>
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-    <link rel="stylesheet" href="style.css">
+
+    img/favicon.svg
 </head>
+
 <body>
+
 <div class="container">
+
     <header class="hero">
-        <div class="hero-logo">T E S L A</div>
+
+        <div class="hero-logo">
+            T E S L A
+        </div>
+
         <div class="hero-line"></div>
-        <div class="hero-subtitle">GATE DASHBOARD</div>
+
+        <div class="hero-subtitle">
+            GATE DASHBOARD
+        </div>
+
         <div class="hero-version">
             <span id="version"></span>
         </div>
+
     </header>
 
     <main class="buttons">
-        <button id="btnOpen" class="btn btn-open">
+
+        <button
+            id="btnOpen"
+            class="btn btn-open">
+
             <div class="btn-icon">
-                <img src="img/gate-open.svg" alt="Otwórz bramę">
+                img/gate-open.svg
             </div>
+
             <div class="btn-text">
-    <div class="btn-title">OTWÓRZ BRAMĘ</div>
-    <div class="btn-hint">DOTKNIJ 2×, ABY POTWIERDZIĆ</div>
-</div>
+
+                <div class="btn-title">
+                    OTWÓRZ BRAMĘ
+                </div>
+
+                <div class="btn-hint">
+                    DOTKNIJ 2×, ABY POTWIERDZIĆ
+                </div>
+
+            </div>
+
         </button>
 
-        <button id="btnClose" class="btn btn-close">
+        <button
+            id="btnClose"
+            class="btn btn-close">
+
             <div class="btn-icon">
-                <img src="img/gate-close.svg" alt="Zamknij bramę">
+                img/gate-close.svg
             </div>
+
             <div class="btn-text">
-    <div class="btn-title">ZAMKNIJ BRAMĘ</div>
-    <div class="btn-hint">DOTKNIJ 2×, ABY POTWIERDZIĆ</div>
-</div>
+
+                <div class="btn-title">
+                    ZAMKNIJ BRAMĘ
+                </div>
+
+                <div class="btn-hint">
+                    DOTKNIJ 2×, ABY POTWIERDZIĆ
+                </div>
+
+            </div>
+
         </button>
-       </main>
+
+    </main>
 
     <section class="status">
+
         <div class="status-line"></div>
 
         <div class="status-content">
-            <div id="message" class="status-text">
+
+            <div
+                id="message"
+                class="status-text"
+                role="status"
+                aria-live="polite">
                 🟢 Gotowy
             </div>
 
-            <div id="lastRead" class="last-read">
+            <div
+                id="lastRead"
+                class="last-read">
                 Ostatni odczyt: brak
             </div>
+
         </div>
 
         <div class="status-line"></div>
+
     </section>
 
 </div>
 
-<script src="config.js"></script>
-<script src="app.js"></script>
+config.jsscript>
+
+<script>
+    const resourceVersion =
+        encodeURIComponent(CONFIG.VERSION);
+
+    const stylesheet =
+        document.createElement("link");
+
+    stylesheet.rel = "stylesheet";
+    stylesheet.href =
+        `style.css?v=${resourceVersion}`;
+
+    document.head.appendChild(stylesheet);
+
+    const applicationScript =
+        document.createElement("script");
+
+    applicationScript.src =
+        `app.js?v=${resourceVersion}`;
+
+    document.body.appendChild(applicationScript);
+</script>
+
 </body>
 </html>
-
