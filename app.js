@@ -403,6 +403,35 @@ btnClose.addEventListener("click", () => {
         "closed"
     );
 });
+window.addEventListener("offline", () => {
+    disableButtons();
+
+    setStatus(
+        "⚪ Brak połączenia z internetem",
+        "#9ca3af"
+    );
+
+    if (CONFIG.DEBUG) {
+        console.log("Utracono połączenie z internetem.");
+    }
+});
+
+window.addEventListener("online", async () => {
+    if (CONFIG.DEBUG) {
+        console.log("Przywrócono połączenie z internetem.");
+    }
+
+    if (commandInProgress) {
+        return;
+    }
+
+    setStatus(
+        "🔵 Przywracanie połączenia...",
+        "#4EA3FF"
+    );
+
+    await readGateStatus();
+});
 
 /* ==========================================================
    POWRÓT DO KARTY APLIKACJI
