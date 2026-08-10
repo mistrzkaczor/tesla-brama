@@ -155,6 +155,111 @@ async function readGateStatus() {
 }
 
 /* ==========================================================
+   WERYFIKACJA STANU PO KOMENDZIE
+========================================================== */
+
+async function verifyGateState(expectedState) {
+    if (CONFIG.DEBUG) {
+        console.log(
+            "Weryfikacja stanu. Oczekiwany stan:",
+            expectedState
+        );
+    }
+
+    try {
+        const response = await fetchWithTimeout(
+            CONFIG.STATUS_URL,
+            {
+                method: "GET",
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Błąd HTTP podczas weryfikacji: ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        if (CONFIG.DEBUG) {
+            console.log("Wynik weryfikacji:", data);
+        }
+
+        if (!data.connected) {
+            disableButtons();
+            setStatus(
+                "⚪ Nie można potwierdzić stanu",
+                "#9ca3af"
+            );
+
+            return false;
+        }
+
+        const isClosed = Boolean(data.hi);
+
+        if (expectedState === "open" && !isClosed) {
+            setStatus(
+                "🟢 Brama została otwarta",
+                "#34C759"
+            );
+
+            updateButtons(false);
+            return true;
+        }
+
+        if (expectedState === "closed" && isClosed) {
+            setStatus(
+                "🟢 Brama została zamknięta",
+                "#34C759"
+            );
+
+            updateButtons(true);
+            return true;
+        }
+
+        if (expectedState === "open") {
+            setStatus(
+                "🟡 Nie potwierdzono otwarcia bramy",
+                "#FFCC00"
+            );
+        } else {
+            setStatus(
+                "🟡 Nie potwierdzono zamknięcia bramy",
+                "#FFCC00"
+            );
+        }
+
+        updateButtons(isClosed);
+        return false;
+    } catch (error) {
+        if (CONFIG.DEBUG) {
+            console.error(
+                "Błąd weryfikacji stanu:",
+                error
+            );
+        }
+
+        disableButtons();
+
+        if (error.name === "AbortError") {
+            setStatus(
+                "🟡 Upłynął czas weryfikacji",
+                "#FFCC00"
+            );
+        } else {
+            setStatus(
+                "🟡 Nie można zweryfikować stanu",
+                "#FFCC00"
+            );
+        }
+
+        return false;
+    }
+}
+
+/* ==========================================================
    INFORMACJA O RUCHU BRAMY
 ========================================================== */
 
@@ -176,10 +281,17 @@ function startGateMovement(direction) {
    WYSYŁANIE KOMENDY
 ========================================================== */
 
-async function sendCommand(button, url, direction) {
+async function sendCommand(
+    button,
+    url,
+    direction,
+    expectedState
+) {
     if (commandInProgress) {
         if (CONFIG.DEBUG) {
-            console.log("Komenda jest już wykonywana.");
+            console.log(
+                "Komenda jest już wykonywana."
+            );
         }
 
         return;
@@ -200,9 +312,17 @@ async function sendCommand(button, url, direction) {
                 mode: "no-cors"
             }
         );
+
+        setStatus(
+            "🔵 Oczekiwanie na potwierdzenie...",
+            "#4EA3FF"
+        );
     } catch (error) {
         if (CONFIG.DEBUG) {
-            console.error("Błąd wysyłania komendy:", error);
+            console.error(
+                "Błąd wysyłania komendy:",
+                error
+            );
         }
 
         stopLoading(button);
@@ -220,18 +340,17 @@ async function sendCommand(button, url, direction) {
             );
         }
 
-        // Próba przywrócenia rzeczywistego stanu przycisków.
         await readGateStatus();
         return;
     }
 
     setTimeout(async () => {
         stopLoading(button);
-        commandInProgress = false;
 
-        // Sprawdzenie rzeczywistego stanu po wykonaniu komendy.
-        await readGateStatus();
-    }, CONFIG.MESSAGE_TIMEOUT);
+        await verifyGateState(expectedState);
+
+        commandInProgress = false;
+    }, CONFIG.VERIFY_DELAY);
 }
 
 /* ==========================================================
@@ -242,7 +361,8 @@ btnOpen.addEventListener("click", () => {
     sendCommand(
         btnOpen,
         CONFIG.OPEN_URL,
-        "opening"
+        "opening",
+        "open"
     );
 });
 
@@ -250,7 +370,8 @@ btnClose.addEventListener("click", () => {
     sendCommand(
         btnClose,
         CONFIG.CLOSE_URL,
-        "closing"
+        "closing",
+        "closed"
     );
 });
 
