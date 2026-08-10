@@ -29,6 +29,8 @@ VERSION: "3.2.1",
  // Czas odświeżania statusu
    REFRESH_INTERVAL: 5000,
 
+// Czas oczekiwania przed weryfikacją stanu bramy
+   VERIFY_DELAY: 4000,
    
 // Tryb debug
    DEBUG: true
