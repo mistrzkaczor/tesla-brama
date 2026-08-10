@@ -325,13 +325,6 @@ linear-gradient(
 .btn-text{
 
     text-align:center;
-
-    font-size:68px;
-
-    font-weight:700;
-
-    letter-spacing:1px;
-
 }
 /* ==========================================================
    STATUS
@@ -752,5 +745,67 @@ opacity:.82;
     .last-read {
         margin-top: 4px;
         font-size: 12px;
+    }
+}
+/* ==========================================================
+   TYTUŁ I PODPOWIEDŹ NA PRZYCISKACH
+========================================================== */
+
+.btn-title {
+    font-size: 68px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
+
+.btn-hint {
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+/* ==========================================================
+   PODPOWIEDŹ NA MNIEJSZYCH EKRANACH
+========================================================== */
+
+@media (max-width: 900px) {
+    .btn-title {
+        font-size: 38px;
+    }
+
+    .btn-hint {
+        margin-top: 7px;
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 600px) {
+    .btn-title {
+        font-size: 22px;
+    }
+
+    .btn-hint {
+        margin-top: 4px;
+        font-size: 9px;
+        letter-spacing: 0.6px;
+    }
+}
+
+/* ==========================================================
+   PODPOWIEDŹ NA NISKICH EKRANACH TESLI
+========================================================== */
+
+@media (max-height: 820px) {
+    .btn-title {
+        font-size: 52px;
+    }
+
+    .btn-hint {
+        margin-top: 7px;
+        font-size: 14px;
+        letter-spacing: 1.2px;
     }
 }
