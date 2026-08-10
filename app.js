@@ -9,7 +9,14 @@ const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
 const versionElement = document.getElementById("version");
 
-let commandInProgress = false;
+if (versionElement) {
+    versionElement.textContent = `v${CONFIG.VERSION}`;
+}
+
+if (message) {
+    message.textContent = "🔵 JavaScript działa";
+    message.style.color = "#4EA3FF";
+}
 
 /* ==========================================================
    STATUS
