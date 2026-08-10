@@ -622,26 +622,23 @@ window.addEventListener("load", () => {
 
 if ("serviceWorker" in navigator) {
 
-    window.addEventListener("load", () => {
+    navigator.serviceWorker
+        .register("./service-worker.js")
 
-        navigator.serviceWorker
-            .register("./service-worker.js")
-
-            .then(() => {
-                if (CONFIG.DEBUG) {
-                    console.log(
-                        "Service Worker zarejestrowany."
-                    );
-                }
-            })
-
-            .catch((error) => {
-                console.error(
-                    "Błąd rejestracji Service Workera:",
-                    error
+        .then(() => {
+            if (CONFIG.DEBUG) {
+                console.log(
+                    "Service Worker zarejestrowany."
                 );
-            });
-    });
+            }
+        })
+
+        .catch((error) => {
+            console.error(
+                "Błąd rejestracji Service Workera:",
+                error
+            );
+        });
 }
    
 });
