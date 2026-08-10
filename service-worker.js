@@ -1,7 +1,7 @@
 importScripts("./config.js");
 
 const CACHE_NAME =
-    `tesla-gate-v${CONFIG.VERSION.replaceAll(".", "-")}`;
+    `tesla-gate-v${CONFIG.VERSION.replace(/\./g, "-")}`;
 
 const APP_FILES = [
     "./",

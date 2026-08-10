@@ -295,7 +295,7 @@ async function verifyGateStateWithRetries(expectedState) {
 
         if (attempt < maxAttempts) {
             setStatus(
-                `🟡 Brak potwierdzenia. Ponowna próba za 5 sekund...`,
+                `🟡 Brak potwierdzenia. Ponowna próba za ${CONFIG.VERIFY_RETRY_DELAY / 1000} sekund...`,
                 "#FFCC00"
             );
 
@@ -468,7 +468,7 @@ async function requestCommandConfirmation(
         );
     }
 
-    // Automatyczne anulowanie potwierdzenia po trzech sekundach
+    // Automatyczne anulowanie potwierdzenia po czasie określonym w konfiguracji
     confirmationTimer = setTimeout(async () => {
         clearCommandConfirmation();
 

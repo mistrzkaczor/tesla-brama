@@ -1,126 +1,141 @@
-Tesla Gate Dashboard
+# Tesla Gate Dashboard
 
-Panel sterowania bramą wjazdową zintegrowany z systemem SUPLA. Aplikacja została przygotowana z myślą o obsłudze w przeglądarce samochodu Tesla, na komputerze oraz na urządzeniach mobilnych.
+Nowoczesny dashboard do sterowania bramą z poziomu przeglądarki, telefonu oraz Tesla Browser.
 
-Aktualna wersja
+Projekt wykorzystuje API SUPLA do:
 
-v3.2.1
+- otwierania bramy,
+- zamykania bramy,
+- odczytu aktualnego stanu,
+- weryfikacji wykonania komendy,
+- pracy jako aplikacja PWA.
 
-Numer wersji jest przechowywany w pliku config.js i automatycznie wyświetlany w nagłówku aplikacji.
+---
 
-Najważniejsze funkcje
-otwieranie bramy z poziomu dashboardu,
-zamykanie bramy z poziomu dashboardu,
-automatyczny odczyt rzeczywistego stanu bramy,
-cykliczne odświeżanie statusu co 5 sekund,
-synchronizacja stanu po użyciu pilota lub innego sterownika,
-automatyczne blokowanie przycisku niezgodnego z aktualnym stanem bramy,
-blokowanie obu przycisków przy braku połączenia z SUPLA,
-zabezpieczenie przed wielokrotnym wysłaniem tej samej komendy,
-limit czasu dla połączeń z API,
-automatyczna weryfikacja stanu po wykonaniu komendy,
-responsywny interfejs dla Tesli, komputerów i urządzeń mobilnych,
-interfejs inspirowany stylistyką Tesla Dashboard.
-Odczyt statusu
+## Funkcje
 
-Aplikacja odczytuje rzeczywisty stan bramy za pomocą API SUPLA.
+### Sterowanie bramą
 
-Standardowy interwał odświeżania wynosi:
+- Otwórz bramę
+- Zamknij bramę
+- Automatyczne blokowanie niewłaściwego przycisku
+- Potwierdzanie wykonania komendy
 
-Plain Text
-1
-5 sekund
-Pokaż więcej wierszy
+---
 
-Podczas otwierania lub zamykania bramy automatyczne odświeżanie jest czasowo wstrzymywane. Zapobiega to nadpisaniu komunikatu informującego o wykonywanej operacji.
+## Zabezpieczenie przed przypadkowym kliknięciem
 
-Po zakończeniu procesu weryfikacji regularne odświeżanie statusu zostaje automatycznie wznowione.
+Każda komenda wymaga podwójnego potwierdzenia.
 
-Weryfikacja wykonania komendy
+Pierwsze dotknięcie uzbraja przycisk.
 
-Pełne otwarcie lub zamknięcie bramy trwa około 30 sekund. Po wysłaniu komendy aplikacja czeka 35 sekund, a następnie ponownie odczytuje rzeczywisty stan z SUPLA.
+Drugie dotknięcie w określonym czasie wysyła komendę.
 
-Przebieg operacji:
+Brak drugiego dotknięcia powoduje automatyczne anulowanie operacji.
 
-Użytkownik naciska przycisk otwierania lub zamykania.
-Oba przyciski zostają tymczasowo zablokowane.
-Aplikacja wysyła komendę do SUPLA.
-Wyświetlany jest komunikat o oczekiwaniu na potwierdzenie.
-Po 35 sekundach aplikacja odczytuje rzeczywisty stan bramy.
-Użytkownik otrzymuje potwierdzenie wykonania operacji lub informację, że nie udało się jej potwierdzić.
+---
 
-Możliwe komunikaty:
+## Inteligentna weryfikacja stanu
 
-Plain Text
-🔵 Otwieranie bramy...
-🔵 Zamykanie bramy...
-🔵 Oczekiwanie na potwierdzenie...
-🟢 Brama została otwarta
-🟢 Brama została zamknięta
-🟡 Nie potwierdzono otwarcia bramy
-🟡 Nie potwierdzono zamknięcia bramy
-Pokaż więcej wierszy
-Zabezpieczenie przed wielokrotnym klikaniem
+Po wysłaniu komendy aplikacja:
 
-Na czas wykonywania i weryfikowania komendy ustawiana jest wewnętrzna blokada:
+- oczekuje ustalony czas,
+- wykonuje pierwszą próbę weryfikacji,
+- ponawia kontrolę stanu w określonych odstępach,
+- potwierdza wykonanie operacji lub zgłasza brak potwierdzenia.
 
-JavaScript
-commandInProgress
-``
-Pokaż więcej wierszy
+---
 
-Dzięki temu kolejne kliknięcia są ignorowane do czasu zakończenia bieżącej operacji. Zapobiega to przypadkowemu wysyłaniu wielu komend do napędu bramy.
+## Aktualny stan bramy
 
-Timeout połączenia
+Dostępne komunikaty:
 
-Każde połączenie z API posiada maksymalny czas oczekiwania. Jeśli SUPLA nie odpowie w określonym czasie, zapytanie zostaje przerwane.
+- Brama zamknięta
+- Brama otwarta
+- Otwieranie bramy
+- Zamykanie bramy
+- Oczekiwanie na potwierdzenie
+- Brak połączenia
+- Brak połączenia z internetem
 
-Domyślny timeout:
+---
 
-Plain Text
-5 sekund
-Pokaż więcej wierszy
+## Czas ostatniego poprawnego odczytu
 
-Możliwe komunikaty:
+Dashboard wyświetla datę i godzinę ostatniej poprawnej odpowiedzi urządzenia.
 
-Plain Text
-⚪ Przekroczono czas połączenia
-🔴 Błąd połączenia
-⚪ Brak połączenia
-🟡 Nie można zweryfikować stanu
-Pokaż więcej wierszy
-Konfiguracja czasowa
+Pozwala to szybko ocenić aktualność prezentowanych informacji.
 
-Najważniejsze ustawienia znajdują się w pliku config.js:
+---
 
-// Czas wyświetlania komunikatu lub animacji
-MESSAGE_TIMEOUT: 2000,
+## Obsługa utraty internetu
 
-// Czas oczekiwania na zakończenie ruchu bramy
-VERIFY_DELAY: 35000,
+Po utracie połączenia:
 
-// Maksymalny czas oczekiwania na odpowiedź API
-FETCH_TIMEOUT: 5000,
+- przyciski zostają zablokowane,
+- wyświetlany jest odpowiedni komunikat,
+- odczyty statusu zostają wstrzymane.
 
-// Interwał automatycznego odświeżania statusu
-REFRESH_INTERVAL: 5000,
+Po odzyskaniu internetu aplikacja automatycznie pobiera aktualny stan urządzenia.
 
-Wszystkie wartości są podawane w milisekundach.
+---
 
-Stabilność
+## Aktualizacja po powrocie do aplikacji
 
-Aplikacja została przygotowana do obsługi następujących sytuacji:
+Po przełączeniu do innej karty lub aplikacji oraz powrocie do dashboardu wykonywany jest natychmiastowy odczyt statusu.
 
-zmiana stanu bramy za pomocą dashboardu,
-zmiana stanu bramy za pomocą pilota,
-brak połączenia z urządzeniem SUPLA,
-przekroczenie czasu odpowiedzi API,
-wielokrotne kliknięcie przycisku,
-czasowe opóźnienie podczas ruchu bramy,
-brak potwierdzenia oczekiwanego stanu,
-używanie aplikacji na ekranach o różnej rozdzielczości i wysokości.
-Ważna informacja dotycząca bezpieczeństwa
+Dzięki temu użytkownik nie musi czekać na kolejne automatyczne odświeżenie.
 
-Aplikacja jest obecnie hostowana w usłudze GitHub Pages, która obsługuje wyłącznie pliki statyczne. Adresy bezpośrednie SUPLA umieszczone w config.js mogą być odczytane przez osobę mającą dostęp do strony lub repozytorium.
+---
 
-Docelowo zalecane jest przeniesienie komunikacji z SUPLA do osobnego backendu lub funkcji serwerowej, tak aby linki sterujące i tokeny nie były dostępne w kodzie wykonywanym przez przeglądarkę.
+## PWA
+
+Aplikacja może zostać zainstalowana jak natywna aplikacja.
+
+Obsługiwane funkcje:
+
+- instalacja na telefonach i tabletach,
+- instalacja w Tesla Browser,
+- uruchamianie bez paska adresu,
+- własna ikona aplikacji,
+- własny ekran startowy,
+- Service Worker,
+- praca interfejsu offline.
+
+---
+
+## Service Worker
+
+Dashboard wykorzystuje Service Workera do przechowywania lokalnych zasobów interfejsu.
+
+Cache obejmuje:
+
+- `index.html`
+- `app.js`
+- `config.js`
+- `style.css`
+- `manifest.json`
+- `favicon.svg`
+- `gate-open.svg`
+- `gate-close.svg`
+- `icon-192.png`
+- `icon-512.png`
+
+Nie są przechowywane w cache:
+
+- odczyty statusu urządzenia,
+- komendy otwierania,
+- komendy zamykania,
+- odpowiedzi API SUPLA.
+
+Dzięki temu stan bramy jest zawsze pobierany z sieci i nie jest odczytywany z pamięci podręcznej.
+
+---
+
+## Automatyczne wersjonowanie
+
+Numer wersji definiowany jest tylko w jednym miejscu:
+
+`config.js`
+
+Zmiana numeru wersji powoduje automatyczne odświeżenie zasobów aplikacji oraz utworzenie nowej wersji cache Service Workera.
