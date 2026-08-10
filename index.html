@@ -59,12 +59,7 @@
 <script src="config.js"></script>
 <script>
     const resourceVersion = encodeURIComponent(CONFIG.VERSION);
-
-    const stylesheet = document.createElement("link");
-    stylesheet.rel = "stylesheet";
-    stylesheet.href = `style.css?v=${resourceVersion}`;
-    document.head.appendChild(stylesheet);
-
+   
     const applicationScript = document.createElement("script");
     applicationScript.src = `app.js?v=${resourceVersion}`;
     document.body.appendChild(applicationScript);
