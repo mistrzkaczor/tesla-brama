@@ -1,4 +1,7 @@
-const CACHE_NAME = "tesla-gate-v3-4-1";
+importScripts("./config.js");
+
+const CACHE_NAME =
+    `tesla-gate-v${CONFIG.VERSION.replaceAll(".", "-")}`;
 
 const APP_FILES = [
     "./",
