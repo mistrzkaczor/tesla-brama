@@ -619,4 +619,29 @@ window.addEventListener("load", () => {
             readGateStatus();
         }
     }, CONFIG.REFRESH_INTERVAL);
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker
+            .register("./service-worker.js")
+
+            .then(() => {
+                if (CONFIG.DEBUG) {
+                    console.log(
+                        "Service Worker zarejestrowany."
+                    );
+                }
+            })
+
+            .catch((error) => {
+                console.error(
+                    "Błąd rejestracji Service Workera:",
+                    error
+                );
+            });
+    });
+}
+   
 });
