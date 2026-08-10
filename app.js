@@ -159,13 +159,28 @@ async function readGateStatus() {
    WERYFIKACJA STANU PO KOMENDZIE
 ========================================================== */
 
-async function verifyGateState(expectedState) {
+/* ==========================================================
+   POJEDYNCZA WERYFIKACJA STANU
+========================================================== */
+
+function delay(milliseconds) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+
+async function verifyGateState(expectedState, attempt, maxAttempts) {
     if (CONFIG.DEBUG) {
         console.log(
-            "Weryfikacja stanu. Oczekiwany stan:",
-            expectedState
+            `Weryfikacja stanu: próba ${attempt} z ${maxAttempts}`
         );
     }
+
+    setStatus(
+        `🔵 Weryfikacja stanu: próba ${attempt} z ${maxAttempts}`,
+        "#4EA3FF"
+    );
 
     try {
         const response = await fetchWithTimeout(
@@ -189,12 +204,6 @@ async function verifyGateState(expectedState) {
         }
 
         if (!data.connected) {
-            disableButtons();
-            setStatus(
-                "⚪ Nie można potwierdzić stanu",
-                "#9ca3af"
-            );
-
             return false;
         }
 
@@ -202,7 +211,7 @@ async function verifyGateState(expectedState) {
 
         if (expectedState === "open" && !isClosed) {
             setStatus(
-                "🟢 Brama została otwarta",
+                "🟢 Otwarcie bramy potwierdzone",
                 "#34C759"
             );
 
@@ -212,7 +221,7 @@ async function verifyGateState(expectedState) {
 
         if (expectedState === "closed" && isClosed) {
             setStatus(
-                "🟢 Brama została zamknięta",
+                "🟢 Zamknięcie bramy potwierdzone",
                 "#34C759"
             );
 
@@ -220,44 +229,61 @@ async function verifyGateState(expectedState) {
             return true;
         }
 
-        if (expectedState === "open") {
-            setStatus(
-                "🟡 Nie potwierdzono otwarcia bramy",
-                "#FFCC00"
-            );
-        } else {
-            setStatus(
-                "🟡 Nie potwierdzono zamknięcia bramy",
-                "#FFCC00"
-            );
-        }
-
-        updateButtons(isClosed);
         return false;
     } catch (error) {
         if (CONFIG.DEBUG) {
             console.error(
-                "Błąd weryfikacji stanu:",
+                `Błąd próby ${attempt}:`,
                 error
-            );
-        }
-
-        disableButtons();
-
-        if (error.name === "AbortError") {
-            setStatus(
-                "🟡 Upłynął czas weryfikacji",
-                "#FFCC00"
-            );
-        } else {
-            setStatus(
-                "🟡 Nie można zweryfikować stanu",
-                "#FFCC00"
             );
         }
 
         return false;
     }
+}
+
+/* ==========================================================
+   WIELOKROTNA WERYFIKACJA STANU
+========================================================== */
+
+async function verifyGateStateWithRetries(expectedState) {
+    const maxAttempts = CONFIG.VERIFY_MAX_ATTEMPTS;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        const confirmed = await verifyGateState(
+            expectedState,
+            attempt,
+            maxAttempts
+        );
+
+        if (confirmed) {
+            return true;
+        }
+
+        if (attempt < maxAttempts) {
+            setStatus(
+                `🟡 Brak potwierdzenia. Ponowna próba za 5 sekund...`,
+                "#FFCC00"
+            );
+
+            await delay(CONFIG.VERIFY_RETRY_DELAY);
+        }
+    }
+
+    if (expectedState === "open") {
+        setStatus(
+            "🟡 Nie potwierdzono otwarcia bramy",
+            "#FFCC00"
+        );
+    } else {
+        setStatus(
+            "🟡 Nie potwierdzono zamknięcia bramy",
+            "#FFCC00"
+        );
+    }
+
+    await readGateStatus();
+    return false;
 }
 
 /* ==========================================================
@@ -345,15 +371,15 @@ async function sendCommand(
         return;
     }
 
-   setTimeout(async () => {
+setTimeout(async () => {
     stopLoading(button);
 
     try {
-        await verifyGateState(expectedState);
+        await verifyGateStateWithRetries(expectedState);
     } finally {
         commandInProgress = false;
     }
-}, CONFIG.VERIFY_DELAY);
+}, CONFIG.VERIFY_INITIAL_DELAY);
 }
 
 /* ==========================================================
