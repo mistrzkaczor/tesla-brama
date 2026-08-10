@@ -6,7 +6,7 @@
 globalThis.CONFIG = {
 
 // wersja aplikacji
-VERSION: "3.4.1",
+VERSION: "3.4.3",
    
 // Link do otwarcia bramy
     OPEN_URL:
