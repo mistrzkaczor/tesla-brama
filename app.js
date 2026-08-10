@@ -135,11 +135,16 @@ async function readGateStatus() {
             }
         );
 
-        if (!response.ok) {
-            throw new Error(
-                `Błąd HTTP podczas odczytu statusu: ${response.status}`
-            );
-        }
+if (!response.ok) {
+
+    if (response.status === 429) {
+        throw new Error("SUPLA_RATE_LIMIT");
+    }
+
+    throw new Error(
+        `Błąd HTTP podczas odczytu statusu: ${response.status}`
+    );
+}
 
        const data = await response.json();
 
@@ -170,17 +175,27 @@ if (data.hi) {
 
         disableButtons();
 
-        if (error.name === "AbortError") {
-            setStatus(
-                "⚪ Przekroczono czas połączenia",
-                "#9ca3af"
-            );
-        } else {
-            setStatus(
-                "⚪ Brak połączenia",
-                "#9ca3af"
-            );
-        }
+if (error.name === "AbortError") {
+
+    setStatus(
+        "⚪ Przekroczono czas połączenia",
+        "#9ca3af"
+    );
+
+} else if (error.message === "SUPLA_RATE_LIMIT") {
+
+    setStatus(
+        "🟡 Zbyt wiele żądań — spróbuj ponownie za chwilę",
+        "#FFCC00"
+    );
+
+} else {
+
+    setStatus(
+        "⚪ Brak połączenia",
+        "#9ca3af"
+    );
+}
     }
 }
 
@@ -220,11 +235,11 @@ async function verifyGateState(expectedState, attempt, maxAttempts) {
             }
         );
 
-        if (!response.ok) {
-            throw new Error(
-                `Błąd HTTP podczas weryfikacji: ${response.status}`
-            );
-        }
+if (!response.ok) {
+    throw new Error(
+        `Błąd HTTP podczas weryfikacji: ${response.status}`
+    );
+}
 
        const data = await response.json();
 
