@@ -228,16 +228,23 @@ btnClose.addEventListener("click", () => {
 
 window.addEventListener("load", () => {
 
-    setStatus("🟢 Łączenie...");
+if (versionElement) {
 
-    async function refreshStatus() {
+versionElement.textContent = `v${CONFIG.VERSION}`;
 
-        await readGateStatus();
+}
 
-        setTimeout(refreshStatus, CONFIG.REFRESH_INTERVAL);
+setStatus("🟢 Łączenie...");
 
-    }
 
-    refreshStatus();
+async function refreshStatus() {
+
+await readGateStatus();
+
+setTimeout(refreshStatus, CONFIG.REFRESH_INTERVAL);
+
+}
+
+refreshStatus();
 
 });
