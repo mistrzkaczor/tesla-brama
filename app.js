@@ -146,25 +146,28 @@ async function readGateStatus() {
             );
         }
 
-        const data = await response.json();
-         updateLastReadTime();
-        if (CONFIG.DEBUG) {
-            console.log("Odpowiedź SUPLA:", data);
-        }
+       const data = await response.json();
 
-        if (!data.connected) {
-            disableButtons();
-            setStatus("⚪ Brak połączenia", "#9ca3af");
-            return;
-        }
+if (CONFIG.DEBUG) {
+    console.log("Odpowiedź SUPLA:", data);
+}
 
-        if (data.hi) {
-            setStatus("🟢 Brama zamknięta", "#34C759");
-            updateButtons(true);
-        } else {
-            setStatus("🔴 Brama otwarta", "#FF453A");
-            updateButtons(false);
-        }
+if (!data.connected) {
+    disableButtons();
+    setStatus("⚪ Brak połączenia", "#9ca3af");
+    return;
+}
+
+// Czas aktualizujemy dopiero po poprawnym odczycie urządzenia
+updateLastReadTime();
+
+if (data.hi) {
+    setStatus("🟢 Brama zamknięta", "#34C759");
+    updateButtons(true);
+} else {
+    setStatus("🔴 Brama otwarta", "#FF453A");
+    updateButtons(false);
+}
     } catch (error) {
         if (CONFIG.DEBUG) {
             console.error("Błąd odczytu statusu:", error);
@@ -228,17 +231,19 @@ async function verifyGateState(expectedState, attempt, maxAttempts) {
             );
         }
 
-        const data = await response.json();
-       
-         updateLastReadTime();
-       
-        if (CONFIG.DEBUG) {
-            console.log("Wynik weryfikacji:", data);
-        }
+       const data = await response.json();
 
-        if (!data.connected) {
-            return false;
-        }
+if (CONFIG.DEBUG) {
+    console.log("Wynik weryfikacji:", data);
+}
+
+if (!data.connected) {
+    return false;
+}
+
+// Aktualizacja czasu po potwierdzeniu połączenia z urządzeniem
+updateLastReadTime();
+
 
         const isClosed = Boolean(data.hi);
 
@@ -503,7 +508,12 @@ btnClose.addEventListener("click", () => {
     );
 });
 
+/* ==========================================================
+   UTRATA POŁĄCZENIA Z INTERNETEM
+========================================================== */
+
 window.addEventListener("offline", () => {
+    clearCommandConfirmation();
     disableButtons();
 
     setStatus(
@@ -516,12 +526,19 @@ window.addEventListener("offline", () => {
     }
 });
 
+/* ==========================================================
+   ODZYSKANIE POŁĄCZENIA Z INTERNETEM
+========================================================== */
+
 window.addEventListener("online", async () => {
     if (CONFIG.DEBUG) {
         console.log("Przywrócono połączenie z internetem.");
     }
 
-    if (commandInProgress) {
+    if (
+        commandInProgress ||
+        pendingConfirmationButton !== null
+    ) {
         return;
     }
 
@@ -552,7 +569,11 @@ document.addEventListener("visibilitychange", () => {
         );
     }
 
-    if (!commandInProgress) {
+    if (
+        !commandInProgress &&
+        pendingConfirmationButton === null &&
+        navigator.onLine
+    ) {
         setStatus(
             "🔵 Aktualizowanie statusu...",
             "#4EA3FF"
@@ -576,14 +597,30 @@ window.addEventListener("load", () => {
         versionElement.textContent = `v${CONFIG.VERSION}`;
     }
 
-    setStatus("🟢 Łączenie...", "#34C759");
+    if (!navigator.onLine) {
+        disableButtons();
 
-    // Pierwszy odczyt po uruchomieniu aplikacji
-    readGateStatus();
+        setStatus(
+            "⚪ Brak połączenia z internetem",
+            "#9ca3af"
+        );
+    } else {
+        setStatus(
+            "🟢 Łączenie...",
+            "#34C759"
+        );
 
-    // Kolejne odczyty tylko wtedy, gdy nie trwa obsługa komendy
+        // Pierwszy odczyt po uruchomieniu aplikacji
+        readGateStatus();
+    }
+
+    // Automatyczne odświeżanie statusu
     setInterval(() => {
-        if (!commandInProgress) {
+        if (
+            !commandInProgress &&
+            pendingConfirmationButton === null &&
+            navigator.onLine
+        ) {
             readGateStatus();
         }
     }, CONFIG.REFRESH_INTERVAL);
