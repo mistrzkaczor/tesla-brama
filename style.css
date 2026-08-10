@@ -711,32 +711,46 @@ opacity:.82;
 
     }
 
-    /* ---------- STATUS ---------- */
+      /* ---------- STATUS ---------- */
 
-    .status{
-
-        margin:12px 0;
-
+    .status {
+        margin: 12px 0;
     }
 
-    .status-text{
-
-        font-size:24px;
-
+    .status-text {
+        font-size: 24px;
     }
 
     /* ---------- STOPKA ---------- */
 
-    footer{
+    footer {
+        margin-top: 4px;
+        font-size: 16px;
+        padding-bottom: 0;
+    }
+}
 
-        margin-top:4px;
+/* Informacja o ostatnim poprawnym odczycie */
 
-        font-size:16px;
+.status-content {
+    min-width: 300px;
+    text-align: center;
+}
 
-        padding-bottom:0px;
+.last-read {
+    margin-top: 6px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #8f949d;
+}
 
+@media (max-width: 600px) {
+    .status-content {
+        min-width: 210px;
     }
 
-
-
-   }
+    .last-read {
+        margin-top: 4px;
+        font-size: 12px;
+    }
+}
