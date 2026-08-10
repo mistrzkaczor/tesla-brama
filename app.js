@@ -13,6 +13,11 @@ const lastReadElement = document.getElementById("lastRead");
 // Informacja, czy komenda otwierania lub zamykania jest w toku
 let commandInProgress = false;
 
+// Przycisk oczekujący na drugie dotknięcie
+let pendingConfirmationButton = null;
+
+// Licznik czasu oczekiwania na potwierdzenie
+let confirmationTimer = null;
 
 
 if (versionElement) {
@@ -410,12 +415,78 @@ setTimeout(async () => {
 }, CONFIG.VERIFY_INITIAL_DELAY);
 }
 
+function clearCommandConfirmation() {
+    if (confirmationTimer) {
+        clearTimeout(confirmationTimer);
+        confirmationTimer = null;
+    }
+
+    pendingConfirmationButton = null;
+}
+
+async function requestCommandConfirmation(
+    button,
+    url,
+    direction,
+    expectedState
+) {
+    // Brak możliwości rozpoczęcia kolejnej operacji,
+    // jeśli poprzednia komenda jest nadal obsługiwana
+    if (commandInProgress) {
+        return;
+    }
+
+    // Drugie dotknięcie tego samego przycisku
+    if (pendingConfirmationButton === button) {
+        clearCommandConfirmation();
+
+        await sendCommand(
+            button,
+            url,
+            direction,
+            expectedState
+        );
+
+        return;
+    }
+
+    // Anulowanie wcześniejszego oczekiwania na inny przycisk
+    clearCommandConfirmation();
+
+    // Zapamiętanie przycisku oczekującego na potwierdzenie
+    pendingConfirmationButton = button;
+
+    if (direction === "opening") {
+        setStatus(
+            "🟡 Dotknij ponownie, aby otworzyć bramę",
+            "#FFCC00"
+        );
+    } else {
+        setStatus(
+            "🟡 Dotknij ponownie, aby zamknąć bramę",
+            "#FFCC00"
+        );
+    }
+
+    // Automatyczne anulowanie potwierdzenia po trzech sekundach
+    confirmationTimer = setTimeout(async () => {
+        clearCommandConfirmation();
+
+        setStatus(
+            "⚪ Potwierdzenie anulowane",
+            "#9ca3af"
+        );
+
+        await readGateStatus();
+    }, CONFIG.CONFIRM_TIMEOUT);
+}
+
 /* ==========================================================
    ZDARZENIA PRZYCISKÓW
 ========================================================== */
 
 btnOpen.addEventListener("click", () => {
-    sendCommand(
+    requestCommandConfirmation(
         btnOpen,
         CONFIG.OPEN_URL,
         "opening",
@@ -424,13 +495,14 @@ btnOpen.addEventListener("click", () => {
 });
 
 btnClose.addEventListener("click", () => {
-    sendCommand(
+    requestCommandConfirmation(
         btnClose,
         CONFIG.CLOSE_URL,
         "closing",
         "closed"
     );
 });
+
 window.addEventListener("offline", () => {
     disableButtons();
 
