@@ -1,4 +1,4 @@
-const CACHE_NAME = "tesla-gate-v3-4-0";
+const CACHE_NAME = "tesla-gate-v3-4-1";
 
 const APP_FILES = [
     "./",
