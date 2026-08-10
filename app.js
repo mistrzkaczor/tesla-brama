@@ -2,6 +2,7 @@
    Tesla Gate Dashboard
   =========================================================== */
 
+
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
@@ -109,17 +110,20 @@ async function readGateStatus(){
 
     }
 
-    catch(error){
+catch(error){
 
-    if(CONFIG.DEBUG){
+   if(CONFIG.DEBUG){
+      console.error(error);
+   }
 
-        console.error(error);
+   btnOpen.disabled = true;
+   btnClose.disabled = true;
+   btnOpen.classList.add("btn-inactive");
+   btnClose.classList.add("btn-inactive");
 
-    }
+   setStatus("⚪ Brak połączenia", "#9ca3af");
 
-    setStatus("⚪ Brak połączenia", "#9ca3af");
-
-}
+            }
 }
 /* ==========================================
    GATE MOVEMENT
