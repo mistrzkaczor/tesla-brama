@@ -1,7 +1,6 @@
 /* ==========================================================
    Tesla Gate Dashboard
-  =========================================================== */
-
+========================================================== */
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
@@ -13,32 +12,55 @@ const versionElement = document.getElementById("version");
 ========================================================== */
 
 function setStatus(text, color = "#d9d9d9") {
-
     message.textContent = text;
     message.style.color = color;
+}
 
+/* ==========================================================
+   FETCH Z TIMEOUTEM
+========================================================== */
+
+async function fetchWithTimeout(
+    url,
+    options = {},
+    timeout = 5000
+) {
+    const controller = new AbortController();
+
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+    }, timeout);
+
+    try {
+        return await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 
 /* ==========================================================
    BUTTONS
 ========================================================== */
 
-function startLoading(button) {
-
-    button.classList.add("loading");
-
+function startLoading(button) {*    button.classList.add("loading"*;
 }
 
-function stopLoading(button) {
-
-    button.classList.remove("loading");
-
+function stopLoading(button) *
+    button.classList.remove("load*ng");
 }
 
-function updateButtons(isClosed){
+function disableButtons()*{
+    btnOpen.disabled = true;
+   *btnClose.disabled = true;
 
-    if(isClosed){
+    btn*pen.classList.add("btn-inactive");*    btnClose.classList.add("btn-in*ctive");
+}
 
+function updateButtons*isClosed) {
+    if (isClosed) {
         // OTWÓRZ aktywny
         btnOpen.classList.remove("btn-inactive");
         btnOpen.disabled = false;
@@ -46,10 +68,7 @@ function updateButtons(isClosed){
         // ZAMKNIJ nieaktywny
         btnClose.classList.add("btn-inactive");
         btnClose.disabled = true;
-
-    }
-    else{
-
+    } else {
         // OTWÓRZ nieaktywny
         btnOpen.classList.add("btn-inactive");
         btnOpen.disabled = true;
@@ -57,141 +76,131 @@ function updateButtons(isClosed){
         // ZAMKNIJ aktywny
         btnClose.classList.remove("btn-inactive");
         btnClose.disabled = false;
-
     }
-
 }
 
+/* ==========================================================
+   ODCZYT STATUSU BRAMY
+========================================================== */
 
-/* ==========================================
-   STATUS
-========================================== */
-
-async function readGateStatus(){
-
-   
+async function readGateStatu*() {
     if (CONFIG.DEBUG) {
+     *  console.log("readGateStatus()");*    }
 
-        console.log("readGateStatus()");
+    try {
+        const res*onse = await fetchWithTimeout(
+   *        CONFIG.STATUS_URL,
+       *    {
+                cache: "no-s*ore"
+            },
+            CO*FIG.FETCH_TIMEOUT ?? 5000
+        *;
 
-    }
-
-    try{
-
-        const response = await fetch(CONFIG.STATUS_URL);
-
-        const data = await response.json();
-
-        if (!data.connected) {
-
-            setStatus("⚪ Brak połączenia", "#9ca3af");
-
+        if (!response.ok) {
+   *        throw new Error(`Błąd HTTP* ${response.status}`);
         }
-        else if (data.hi) {
 
-            setStatus("🟢 Brama zamknięta", "#34C759");
+*       const data = await response*json();
 
+        if (!data.connect*d) {
+            disableButtons();*            setStatus("⚪ Brak połą*zenia", "#9ca3af");
+        } else*if (data.hi) {
+            setStat*s("🟢 Brama zamknięta", "#34C759")*
             updateButtons(true);
-
-        }
-        else {
-
-            setStatus("🔴 Brama otwarta", "#FF453A");
-
-            updateButtons(false);
-
+*       } else {
+            setSta*us("🔴 Brama otwarta", "#FF453A");*            updateButtons(false);
         }
 
         if (CONFIG.DEBUG) {
-
-            console.log(data);
-
+            console.log("Status SUPLA:", data);
+        }
+    } catch (error) {
+        if (CONFIG.DEBUG) {
+            console.error("Błąd odczytu statusu:", error);
         }
 
+        disableButtons();
+
+        if (error.name === "AbortError") {
+            setStatus(
+                "⚪ Przekroczono czas połączenia",
+                "#9ca3af"
+            );
+        } else {
+            setStatus(
+                "⚪ Brak połączenia",
+                "#9ca3af"
+            );
+        }
     }
-
-catch(error){
-
-   if(CONFIG.DEBUG){
-      console.error(error);
-   }
-
-   btnOpen.disabled = true;
-   btnClose.disabled = true;
-   btnOpen.classList.add("btn-inactive");
-   btnClose.classList.add("btn-inactive");
-
-   setStatus("⚪ Brak połączenia", "#9ca3af");
-
-            }
 }
-/* ==========================================
-   GATE MOVEMENT
-========================================== */
-
-function startGateMovement(direction) {
-
-
-    if (direction === "opening") {
-
-        setStatus("🔵 Otwieranie bramy...", "#4EA3FF");
-
-    }
-    else {
-
-        setStatus("🔵 Zamykanie bramy...", "#4EA3FF");
-
-    }
-
-}
-
 
 /* ==========================================================
-   COMMAND
+   RUCH BRAMY
+========================================================== */
+
+function startGateMovement(direction) {
+    if (direction === "opening") {
+        setStatus(
+            "🔵 Otwieranie bramy...",
+            "#4EA3FF"
+        );
+    } else {
+        setStatus(
+            "🔵 Zamykanie bramy...",
+            "#4EA3FF"
+        );
+    }
+}
+
+/* ==========================================================
+   WYSYŁANIE KOMENDY
 ========================================================== */
 
 async function sendCommand(button, url) {
-
     startLoading(button);
 
     if (button === btnOpen) {
-
         startGateMovement("opening");
-
     } else {
-
         startGateMovement("closing");
-
     }
 
     try {
-
-        await fetch(url, {
-            method: "GET",
-            cache: "no-store",
-            mode: "no-cors"
-        });
-
-    }
-    catch (error) {
-
+        await fetchWithTimeout(
+            url,
+            {
+                method: "GET",
+                cache: "no-store",
+                mode: "no-cors"
+            },
+            CONFIG.FETCH_TIMEOUT ?? 5000
+        );
+    } catch (error) {
         if (CONFIG.DEBUG) {
-            console.error(error);
+            console.error("Błąd wysyłania komendy:", error);
         }
 
         stopLoading(button);
 
-        setStatus("🔴 Błąd połączenia", "#FF453A");
+        if (error.name === "AbortError") {
+            setStatus(
+                "🔴 Przekroczono czas połączenia",
+                "#FF453A"
+            );
+        } else {
+            setStatus(
+                "🔴 Błąd połączenia",
+                "#FF453A"
+            );
+        }
 
         return;
     }
 
     setTimeout(() => {
-
         stopLoading(button);
-
     }, CONFIG.MESSAGE_TIMEOUT);
-
 }
 
 /* ==========================================================
@@ -199,31 +208,17 @@ async function sendCommand(button, url) {
 ========================================================== */
 
 btnOpen.addEventListener("click", () => {
-
     sendCommand(
-
         btnOpen,
-
-        CONFIG.OPEN_URL,
-
-        "Brama otwierana"
-
+        CONFIG.OPEN_URL
     );
-
 });
 
 btnClose.addEventListener("click", () => {
-
     sendCommand(
-
         btnClose,
-
-        CONFIG.CLOSE_URL,
-
-        "Brama zamykana"
-
+        CONFIG.CLOSE_URL
     );
-
 });
 
 /* ==========================================================
@@ -231,24 +226,20 @@ btnClose.addEventListener("click", () => {
 ========================================================== */
 
 window.addEventListener("load", () => {
+    if (versionElement) {
+        versionElement.textContent = `v${CONFIG.VERSION}`;
+    }
 
-if (versionElement) {
+    setStatus("🟢 Łączenie...");
 
-versionElement.textContent = `v${CONFIG.VERSION}`;
+    async function refreshStatus() {
+        await readGateStatus();
 
-}
+        setTimeout(
+            refreshStatus,
+            CONFIG.REFRESH_INTERVAL
+        );
+    }
 
-setStatus("🟢 Łączenie...");
-
-
-async function refreshStatus() {
-
-await readGateStatus();
-
-setTimeout(refreshStatus, CONFIG.REFRESH_INTERVAL);
-
-}
-
-refreshStatus();
-
+    refreshStatus();
 });
