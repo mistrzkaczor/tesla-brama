@@ -252,23 +252,21 @@ btnClose.addEventListener("click", () => {
 ========================================================== */
 
 window.addEventListener("load", () => {
+    console.log("STRONA ZAŁADOWANA");
+    console.log("CONFIG:", CONFIG);
+    console.log("VERSION:", CONFIG.VERSION);
+    console.log("ELEMENT VERSION:", versionElement);
+
     if (versionElement) {
         versionElement.textContent = `v${CONFIG.VERSION}`;
     }
 
-    document.title = `Tesla Gate v${CONFIG.VERSION}`;
-
-    disableButtons();
     setStatus("🟢 Łączenie...", "#34C759");
 
-    async function refreshStatus() {
-        await readGateStatus();
+    readGateStatus();
 
-        setTimeout(
-            refreshStatus,
-            CONFIG.REFRESH_INTERVAL
-        );
-    }
-
-    refreshStatus();
+    setInterval(
+        readGateStatus,
+        CONFIG.REFRESH_INTERVAL
+    );
 });
