@@ -382,7 +382,7 @@ btnClose.addEventListener("click", () => {
    URUCHOMIENIE APLIKACJI
 ========================================================== */
 
-window.addEventListener("load",*() => {
+window.addEventListener("load",() => {
     console.log("STRONA ZA*ADOWANA");
     console.log("CONFIG*", CONFIG);
     console.log("VERSI*N:", CONFIG.VERSION);
