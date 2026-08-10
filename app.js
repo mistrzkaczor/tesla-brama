@@ -1,7 +1,12 @@
 /* ==========================================================
    Tesla Gate Dashboard
-   Version v3.3-stable
+  =========================================================== */
+
+/* ==========================================================
+   WERSJA PROGRAMU
 ========================================================== */
+const version = document.getElementById("version");
+
 
 const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
