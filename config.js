@@ -3,7 +3,7 @@
    Konfiguracja
 ========================================== */
 
-const CONFIG = {
+globalThis.CONFIG = {
 
 // wersja aplikacji
 VERSION: "3.4.1",
