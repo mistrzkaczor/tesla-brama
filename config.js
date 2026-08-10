@@ -6,7 +6,7 @@
 const CONFIG = {
 
 // wersja aplikacji
-VERSION: "3.2.1",
+VERSION: "3.4.0",
    
 // Link do otwarcia bramy
     OPEN_URL:
