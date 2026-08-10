@@ -8,6 +8,7 @@ const btnOpen = document.getElementById("btnOpen");
 const btnClose = document.getElementById("btnClose");
 const message = document.getElementById("message");
 const versionElement = document.getElementById("version");
+const lastReadElement = document.getElementById("lastRead");
 
 // Informacja, czy komenda otwierania lub zamykania jest w toku
 let commandInProgress = false;
@@ -26,6 +27,31 @@ if (versionElement) {
 function setStatus(text, color = "#d9d9d9") {
     message.textContent = text;
     message.style.color = color;
+}
+
+/* ==========================================================
+   CZAS OSTATNIEGO POPRAWNEGO ODCZYTU
+========================================================== */
+
+function updateLastReadTime() {
+
+    // Sprawdzenie, czy element czasu istnieje w pliku HTML
+    if (!lastReadElement) {
+        return;
+    }
+
+    // Pobranie aktualnej daty i godziny
+    const now = new Date();
+
+    // Sformatowanie godziny w polskim formacie: GG:MM:SS
+    const time = now.toLocaleTimeString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    // Wyświetlenie czasu ostatniego poprawnego odczytu
+    lastReadElement.textContent = `Ostatni odczyt: ${time}`;
 }
 
 /* ==========================================================
@@ -116,7 +142,7 @@ async function readGateStatus() {
         }
 
         const data = await response.json();
-
+         updateLastReadTime();
         if (CONFIG.DEBUG) {
             console.log("Odpowiedź SUPLA:", data);
         }
@@ -198,7 +224,9 @@ async function verifyGateState(expectedState, attempt, maxAttempts) {
         }
 
         const data = await response.json();
-
+       
+         updateLastReadTime();
+       
         if (CONFIG.DEBUG) {
             console.log("Wynik weryfikacji:", data);
         }
