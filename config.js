@@ -5,43 +5,40 @@
 
 globalThis.CONFIG = {
 
-// wersja aplikacji
-VERSION: "3.4.4",
-   
-// Link do otwarcia bramy
-    OPEN_URL:
-    "https://svr20.supla.org/direct/1630/7ebdAmEowLmG/open",
+    // wersja aplikacji
+    VERSION: "3.5.0",
 
-// Link do zamknięcia bramy
-    CLOSE_URL:
-    "https://svr20.supla.org/direct/1631/Y9wnqZsr7rcm/close",
-
-// Link do odczytu statusu
+    // API
     STATUS_URL:
-    "https://svr20.supla.org/direct/1634/Wweiib2Y7Pbhxog/read?format=json",
+        "https://api.kozeramariusz.pl/status.php",
 
-// Czas wyświetlania komunikatu
-MESSAGE_TIMEOUT: 2000,
+    OPEN_URL:
+        "https://api.kozeramariusz.pl/open.php",
 
-// Pierwsza kontrola po 30 sekundach
-VERIFY_INITIAL_DELAY: 30000,
+    CLOSE_URL:
+        "https://api.kozeramariusz.pl/close.php",
 
-// Kolejne kontrole co 5 sekund
-VERIFY_RETRY_DELAY: 5000,
+    // Czas wyświetlania komunikatu
+    MESSAGE_TIMEOUT: 2000,
 
-// Maksymalnie 4 próby
-VERIFY_MAX_ATTEMPTS: 4,
+    // Pierwsza kontrola po 30 sekundach
+    VERIFY_INITIAL_DELAY: 30000,
 
-// Czas na ponowne dotknięcie przycisku
-CONFIRM_TIMEOUT: 3000,
-   
-// Maksymalny czas oczekiwania na odpowiedź API
-FETCH_TIMEOUT: 5000,
+    // Kolejne kontrole co 5 sekund
+    VERIFY_RETRY_DELAY: 5000,
 
-// Czas odświeżania statusu
-REFRESH_INTERVAL: 5000,
+    // Maksymalnie 4 próby
+    VERIFY_MAX_ATTEMPTS: 4,
 
-// Tryb debug
-DEBUG: true
+    // Czas na ponowne dotknięcie przycisku
+    CONFIRM_TIMEOUT: 3000,
 
+    // Maksymalny czas oczekiwania na odpowiedź API
+    FETCH_TIMEOUT: 5000,
+
+    // Czas odświeżania statusu
+    REFRESH_INTERVAL: 5000,
+
+    // Tryb debug
+    DEBUG: true
 };
