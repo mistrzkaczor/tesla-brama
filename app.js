@@ -278,13 +278,13 @@ if (!response.ok) {
     );
 }
 
-       const data = await response.json();
+const data = await response.json();
 
 if (CONFIG.DEBUG) {
     console.log("Wynik weryfikacji:", data);
 }
 
-if (!data.connected) {
+if (!data.data || !data.data.connected) {
     return false;
 }
 
