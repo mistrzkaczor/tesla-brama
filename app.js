@@ -147,25 +147,43 @@ if (!response.ok) {
 }
 
        const data = await response.json();
+if (!data.success) {
+    throw new Error(data.error || "API_ERROR");
+}
 
+const gateData = data.data;
+
+       
 if (CONFIG.DEBUG) {
     console.log("Odpowiedź SUPLA:", data);
 }
 
-if (!data.connected) {
+if (!gateData.connected) {
     disableButtons();
-    setStatus("⚪ Brak połączenia", "#9ca3af");
+
+    setStatus(
+        "⚪ Brak połączenia",
+        "#9ca3af"
+    );
+
     return;
 }
 
-// Czas aktualizujemy dopiero po poprawnym odczycie urządzenia
 updateLastReadTime();
 
-if (data.hi) {
-    setStatus("🟢 Brama zamknięta", "#34C759");
+if (gateData.hi) {
+    setStatus(
+        "🟢 Brama zamknięta",
+        "#34C759"
+    );
+
     updateButtons(true);
 } else {
-    setStatus("🔴 Brama otwarta", "#FF453A");
+    setStatus(
+        "🔴 Brama otwarta",
+        "#FF453A"
+    );
+
     updateButtons(false);
 }
     } catch (error) {
@@ -418,14 +436,31 @@ async function sendCommand(
     startGateMovement(direction);
 
     try {
-        await fetchWithTimeout(
-            url,
-            {
-                method: "GET",
-                cache: "no-store",
-                mode: "no-cors"
-            }
-        );
+const response = await fetchWithTimeout(
+    url,
+    {
+        method: "POST",
+        cache: "no-store"
+    }
+);
+
+if (!response.ok) {
+    if (response.status === 429) {
+        throw new Error("SUPLA_RATE_LIMIT");
+    }
+
+    throw new Error(
+        `Błąd HTTP API: ${response.status}`
+    );
+}
+
+const data = await response.json();
+
+if (!data.success) {
+    throw new Error(
+        data.error || "API_ERROR"
+    );
+}
 
         setStatus(
             "🔵 Oczekiwanie na potwierdzenie...",
@@ -442,17 +477,7 @@ async function sendCommand(
         stopLoading(button);
         commandInProgress = false;
 
-        if (error.name === "AbortError") {
-            setStatus(
-                "🔴 Przekroczono czas połączenia",
-                "#FF453A"
-            );
-        } else {
-            setStatus(
-                "🔴 Błąd połączenia",
-                "#FF453A"
-            );
-        }
+if (error.name === "AbortError")
 
         await readGateStatus();
         return;
