@@ -213,6 +213,21 @@ function delay(milliseconds) {
     });
 }
 
+function waitForInternet() {
+    if (navigator.onLine) {
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+        const handleOnline = () => {
+            window.removeEventListener("online", handleOnline);
+            resolve();
+        };
+
+        window.addEventListener("online", handleOnline);
+    });
+}
+
 
 async function verifyGateState(expectedState, attempt, maxAttempts) {
     if (CONFIG.DEBUG) {
@@ -227,7 +242,12 @@ async function verifyGateState(expectedState, attempt, maxAttempts) {
     );
 
     try {
-        const response = await fetchWithTimeout(
+
+if (!navigator.onLine) {
+    return "offline";
+}
+
+    const response = await fetchWithTimeout(
             CONFIG.STATUS_URL,
             {
                 method: "GET",
@@ -278,16 +298,20 @@ updateLastReadTime();
         }
 
         return false;
-    } catch (error) {
-        if (CONFIG.DEBUG) {
-            console.error(
-                `Błąd próby ${attempt}:`,
-                error
-            );
-        }
-
-        return false;
+} catch (error) {
+    if (CONFIG.DEBUG) {
+        console.error(
+            `Błąd próby ${attempt}:`,
+            error
+        );
     }
+
+    if (!navigator.onLine) {
+        return "offline";
+    }
+
+    return false;
+}
 }
 
 /* ==========================================================
@@ -298,14 +322,29 @@ async function verifyGateStateWithRetries(expectedState) {
     const maxAttempts = CONFIG.VERIFY_MAX_ATTEMPTS;
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+
         const confirmed = await verifyGateState(
             expectedState,
             attempt,
             maxAttempts
         );
 
-        if (confirmed) {
+        if (confirmed === true) {
             return true;
+        }
+
+        if (confirmed === "offline") {
+            setStatus(
+                "⚪ Brak połączenia z internetem",
+                "#9ca3af"
+            );
+
+            await waitForInternet();
+
+            // Utrata internetu nie zabiera jednej z prób.
+            attempt--;
+
+            continue;
         }
 
         if (attempt < maxAttempts) {
