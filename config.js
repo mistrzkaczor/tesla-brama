@@ -40,5 +40,5 @@ globalThis.CONFIG = {
     REFRESH_INTERVAL: 5000,
 
     // Tryb debug
-    DEBUG: true
+    DEBUG: false
 };
