@@ -1,141 +1,87 @@
-# Tesla Gate Dashboard 3.5.0
+# Tesla Gate Dashboard
 
-Nowoczesny dashboard do sterowania bramą z poziomu przeglądarki, telefonu oraz Tesla Browser.
+Panel webowy do sterowania i monitorowania bramy.
 
-Projekt wykorzystuje API SUPLA do:
+## Wersja
 
-- otwierania bramy,
-- zamykania bramy,
-- odczytu aktualnego stanu,
-- weryfikacji wykonania komendy,
-- pracy jako aplikacja PWA.
+**3.5.0**
 
----
+Wersja 3.5.0 wprowadza własne API pośredniczące pomiędzy frontendem a SUPLA.
+
+## Architektura
+
+Frontend:
+
+https://mistrzkaczor.github.io/tesla-brama/
+
+Backend API:
+
+https://api.kozeramariusz.pl/
+
+Frontend nie komunikuje się bezpośrednio z SUPLA.
+
+Schemat:
+
+Frontend
+↓
+Tesla Gate API
+↓
+SUPLA
+↓
+Sterownik bramy
+
+## API
+
+Backend udostępnia trzy endpointy:
+
+GET `/status.php`
+
+POST `/open.php`
+
+POST `/close.php`
+
+Dane dostępowe SUPLA znajdują się wyłącznie po stronie serwera.
 
 ## Funkcje
 
-### Sterowanie bramą
+- odczyt aktualnego stanu bramy
+- otwieranie bramy
+- zamykanie bramy
+- dwustopniowe potwierdzenie operacji
+- automatyczna weryfikacja stanu po wykonaniu polecenia
+- pierwsza weryfikacja po 30 sekundach
+- kolejne próby co 5 sekund
+- maksymalnie 4 próby
+- obsługa utraty połączenia z internetem
+- automatyczne wznowienie połączenia
+- blokowanie przycisków podczas braku internetu
+- obsługa błędów HTTP
+- obsługa limitu żądań SUPLA
+- Service Worker
+- cache aplikacji
 
-- Otwórz bramę
-- Zamknij bramę
-- Automatyczne blokowanie niewłaściwego przycisku
-- Potwierdzanie wykonania komendy
+## Bezpieczeństwo
 
----
+Frontend nie zawiera danych uwierzytelniających SUPLA.
 
-## Zabezpieczenie przed przypadkowym kliknięciem
+Dane dostępowe do SUPLA są przechowywane w `config.php` na serwerze API.
 
-Każda komenda wymaga podwójnego potwierdzenia.
+## Wersjonowanie
 
-Pierwsze dotknięcie uzbraja przycisk.
+### 3.5.0
 
-Drugie dotknięcie w określonym czasie wysyła komendę.
+- dodano własne API
+- przeniesiono komunikację z SUPLA na serwer
+- dodano `status.php`
+- dodano `open.php`
+- dodano `close.php`
+- dodano obsługę CORS
+- dostosowano frontend do odpowiedzi API
+- poprawiono weryfikację stanu bramy
+- zachowano obsługę offline
+- poprawiono mechanizm retry
+- wyłączono tryb DEBUG w wersji produkcyjnej
 
-Brak drugiego dotknięcia powoduje automatyczne anulowanie operacji.
+### 3.4.4
 
----
-
-## Inteligentna weryfikacja stanu
-
-Po wysłaniu komendy aplikacja:
-
-- oczekuje ustalony czas,
-- wykonuje pierwszą próbę weryfikacji,
-- ponawia kontrolę stanu w określonych odstępach,
-- potwierdza wykonanie operacji lub zgłasza brak potwierdzenia.
-
----
-
-## Aktualny stan bramy
-
-Dostępne komunikaty:
-
-- Brama zamknięta
-- Brama otwarta
-- Otwieranie bramy
-- Zamykanie bramy
-- Oczekiwanie na potwierdzenie
-- Brak połączenia
-- Brak połączenia z internetem
-
----
-
-## Czas ostatniego poprawnego odczytu
-
-Dashboard wyświetla datę i godzinę ostatniej poprawnej odpowiedzi urządzenia.
-
-Pozwala to szybko ocenić aktualność prezentowanych informacji.
-
----
-
-## Obsługa utraty internetu
-
-Po utracie połączenia:
-
-- przyciski zostają zablokowane,
-- wyświetlany jest odpowiedni komunikat,
-- odczyty statusu zostają wstrzymane.
-
-Po odzyskaniu internetu aplikacja automatycznie pobiera aktualny stan urządzenia.
-
----
-
-## Aktualizacja po powrocie do aplikacji
-
-Po przełączeniu do innej karty lub aplikacji oraz powrocie do dashboardu wykonywany jest natychmiastowy odczyt statusu.
-
-Dzięki temu użytkownik nie musi czekać na kolejne automatyczne odświeżenie.
-
----
-
-## PWA
-
-Aplikacja może zostać zainstalowana jak natywna aplikacja.
-
-Obsługiwane funkcje:
-
-- instalacja na telefonach i tabletach,
-- instalacja w Tesla Browser,
-- uruchamianie bez paska adresu,
-- własna ikona aplikacji,
-- własny ekran startowy,
-- Service Worker,
-- praca interfejsu offline.
-
----
-
-## Service Worker
-
-Dashboard wykorzystuje Service Workera do przechowywania lokalnych zasobów interfejsu.
-
-Cache obejmuje:
-
-- `index.html`
-- `app.js`
-- `config.js`
-- `style.css`
-- `manifest.json`
-- `favicon.svg`
-- `gate-open.svg`
-- `gate-close.svg`
-- `icon-192.png`
-- `icon-512.png`
-
-Nie są przechowywane w cache:
-
-- odczyty statusu urządzenia,
-- komendy otwierania,
-- komendy zamykania,
-- odpowiedzi API SUPLA.
-
-Dzięki temu stan bramy jest zawsze pobierany z sieci i nie jest odczytywany z pamięci podręcznej.
-
----
-
-## Automatyczne wersjonowanie
-
-Numer wersji definiowany jest tylko w jednym miejscu:
-
-`config.js`
-
-Zmiana numeru wersji powoduje automatyczne odświeżenie zasobów aplikacji oraz utworzenie nowej wersji cache Service Workera.
+Wersja poprzedzająca migrację do własnego API.
