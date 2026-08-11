@@ -1,0 +1,22 @@
+# System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Edytory
+.vscode/
+.idea/
+
+# Pliki tymczasowe
+*.tmp
+*.temp
+*.log
+
+# Dane lokalne
+.env
+.env.*
+*.local
+
+# Backup
+*.bak
+*.backup
