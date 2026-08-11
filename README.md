@@ -1,4 +1,4 @@
-# Tesla Gate Dashboard
+# Tesla Gate Dashboard 3.5.0
 
 Nowoczesny dashboard do sterowania bramą z poziomu przeglądarki, telefonu oraz Tesla Browser.
 
