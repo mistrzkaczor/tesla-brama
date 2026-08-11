@@ -156,27 +156,21 @@ if (!data.success) {
     throw new Error(data.error || "API_ERROR");
 }
 
-const gateData = data.data;
+const suplaData = data.data;
 
-       
 if (CONFIG.DEBUG) {
-    console.log("Odpowiedź SUPLA:", data);
+    console.log("Odpowiedź SUPLA:", suplaData);
 }
 
-if (!gateData.connected) {
+if (!suplaData || !suplaData.connected) {
     disableButtons();
-
-    setStatus(
-        "⚪ Brak połączenia",
-        "#9ca3af"
-    );
-
+    setStatus("⚪ Brak połączenia", "#9ca3af");
     return;
 }
 
 updateLastReadTime();
 
-if (gateData.hi) {
+if (suplaData.hi) {
     setStatus(
         "🟢 Brama zamknięta",
         "#34C759"
@@ -297,18 +291,17 @@ if (!data.connected) {
 // Aktualizacja czasu po potwierdzeniu połączenia z urządzeniem
 updateLastReadTime();
 
+const isClosed = Boolean(data.data.hi);
 
-        const isClosed = Boolean(data.hi);
+if (expectedState === "open" && !isClosed) {
+    setStatus(
+        "🟢 Otwarcie bramy potwierdzone",
+        "#34C759"
+    );
 
-        if (expectedState === "open" && !isClosed) {
-            setStatus(
-                "🟢 Otwarcie bramy potwierdzone",
-                "#34C759"
-            );
-
-            updateButtons(false);
-            return true;
-        }
+    updateButtons(false);
+    return true;
+}
 
         if (expectedState === "closed" && isClosed) {
             setStatus(
