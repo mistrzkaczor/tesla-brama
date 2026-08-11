@@ -146,7 +146,12 @@ if (!response.ok) {
     );
 }
 
-       const data = await response.json();
+const data = await response.json();
+
+if (CONFIG.DEBUG) {
+    console.log("Odpowiedź API:", data);
+}
+
 if (!data.success) {
     throw new Error(data.error || "API_ERROR");
 }
